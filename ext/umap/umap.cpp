@@ -1,9 +1,10 @@
-#include "umappp.hpp"
+#include <rice/rice.hpp>
+#include <rice/stl.hpp>
 
-VALUE rb_mUmap;
+#include "umappp.hpp"
 
 extern "C"
 void Init_umap()
 {
-  Rice::define_module("Umap")
+  Rice::define_module("Umap");
 }
