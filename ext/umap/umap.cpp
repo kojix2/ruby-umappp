@@ -3,8 +3,10 @@
 
 #include "Umap.hpp"
 
+using namespace Rice;
+
 extern "C"
 void Init_umap()
 {
-  auto m = Rice::define_module("Umap");
+  Module rb_mUmap = Rice::define_module("Umap");
 }
