@@ -12,18 +12,6 @@ typedef typename umappp::Umap<Float> Umap;
 
 using namespace Rice;
 
-Object umap_run(Object self, int ndim, int nthreads, int tick = 0)
-{
-  int nd = 3;
-  int nobs = 3;
-
-#ifdef _OPENMP
-  omp_set_num_threads(nthreads);
-#endif
-
-  return self;
-}
-
 Hash define_defaults(Object self)
 {
   Hash d;
@@ -43,6 +31,72 @@ Hash define_defaults(Object self)
   d[Symbol("batch")] = Umap::Defaults::batch;
 
   return d;
+}
+
+Object umap_run(
+    Object self,
+    Hash params,
+    numo::SFloat data,
+    int nd,
+    int nobs,
+    int nn_method,
+    int ndim,
+    int nthreads)
+{
+#ifdef _OPENMP
+  omp_set_num_threads(nthreads);
+#endif
+
+  double local_connectivity = params.get<double>(Symbol("local_connectivity"));
+  double bandwidth = params.get<double>(Symbol("bandwidth"));
+  double mix_ratio = params.get<double>(Symbol("mix_ratio"));
+  double spread = params.get<double>(Symbol("spread"));
+  double min_dist = params.get<double>(Symbol("min_dist"));
+  double a = params.get<double>(Symbol("a"));
+  double b = params.get<double>(Symbol("b"));
+  double repulsion_strength = params.get<double>(Symbol("repulsion_strength"));
+  int num_epochs = params.get<int>(Symbol("num_epochs"));
+  double learning_rate = params.get<double>(Symbol("learning_rate"));
+  double negative_sample_rate = params.get<double>(Symbol("negative_sample_rate"));
+  int num_neighbors = params.get<int>(Symbol("num_neighbors"));
+  int seed = params.get<int>(Symbol("seed"));
+  bool batch = params.get<bool>(Symbol("batch"));
+
+  // setup_parameters
+
+  auto umap_ptr = new Umap;
+  umap_ptr->set_local_connectivity(local_connectivity);
+  umap_ptr->set_bandwidth(bandwidth);
+  umap_ptr->set_mix_ratio(mix_ratio);
+  data.read_ptr();
+  umap_ptr->set_spread(spread);
+  umap_ptr->set_min_dist(min_dist);
+  umap_ptr->set_a(a);
+  umap_ptr->set_b(b);
+
+  umap_ptr->set_repulsion_strength(repulsion_strength);
+  umap_ptr->set_num_epochs(num_epochs);
+  umap_ptr->set_learning_rate(learning_rate);
+  umap_ptr->set_negative_sample_rate(negative_sample_rate);
+
+  umap_ptr->set_num_neighbors(num_neighbors);
+  umap_ptr->set_seed(seed);
+  umap_ptr->set_batch(batch);
+
+  // initialize_from_matrix
+  const float *y = data.read_ptr();
+  std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
+  if (nn_method == 0)
+  {
+    knncolle_ptr.reset(new knncolle::AnnoyEuclidean<int, Float>(nd, nobs, y));
+  }
+  else if (nn_method == 1)
+  {
+    knncolle_ptr.reset(new knncolle::KmknnEuclidean<int, Float>(nd, nobs, y));
+  }
+
+  std::vector<Float> embedding(ndim * nobs);
+  return self;
 }
 
 extern "C" void Init_umap()
