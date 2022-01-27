@@ -1,5 +1,6 @@
 #include <rice/rice.hpp>
 #include <rice/stl.hpp>
+#include "numo.hpp"
 #include "Umap.hpp"
 
 typedef float Float;

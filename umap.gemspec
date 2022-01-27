@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.extensions = ["ext/umap/extconf.rb"]
 
   # Uncomment to register a new dependency of your gem
+  spec.add_dependency "numo-narray"
   spec.add_dependency "rice", "~> 4.0"
 
   # For more information and examples about making a new gem, check out our
