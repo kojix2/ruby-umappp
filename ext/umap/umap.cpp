@@ -10,13 +10,6 @@ typedef typename umappp::Umap<Float> Umap;
 #include <omp.h>
 #endif
 
-struct Status
-{
-  Status(Umap::Status s, std::vector<Float> e) : status(std::move(s)), embedding(std::move(e)) {}
-  Umap::Status status;
-  std::vector<Float> embedding;
-};
-
 using namespace Rice;
 
 Hash define_defaults(Object self)
@@ -44,10 +37,8 @@ Object umap_run(
     Object self,
     Hash params,
     numo::SFloat data,
-    int nd,
-    int nobs,
-    int nn_method,
     int ndim,
+    int nn_method,
     int nthreads)
 {
 #ifdef _OPENMP
@@ -91,6 +82,10 @@ Object umap_run(
   umap_ptr->set_batch(batch);
 
   // initialize_from_matrix
+
+  size_t* shape = data.shape();
+  int nd = shape[0];
+  int nobs = shape[1];
   const float *y = data.read_ptr();
   std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
   if (nn_method == 0)
@@ -104,10 +99,18 @@ Object umap_run(
 
   std::vector<Float> embedding(ndim * nobs);
 
-  auto s = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
-  Status status = Status(std::move(s), std::move(embedding));
+  auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
 
-  return self;
+  int epoch_limit = 0;
+  //  if (tick) {
+  //      epoch_limit = sptr->status.epoch() + tick;
+  //  }
+
+  umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
+
+  auto na = numo::SFloat({(uint)ndim, (uint)nobs});
+  std::copy(embedding.begin(), embedding.end(), na.write_ptr());
+  return na;
 }
 
 extern "C" void Init_umap()
