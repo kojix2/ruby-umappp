@@ -17,7 +17,7 @@ Object umap_run(Object self, int ndim, int nthreads, int tick = 0)
   int nobs = 3;
 
 #ifdef _OPENMP
-    omp_set_num_threads(nthreads);
+  omp_set_num_threads(nthreads);
 #endif
 
   return self;
@@ -44,11 +44,10 @@ Object define_defaults(Object self)
   return d;
 }
 
-extern "C"
-void Init_umap()
+extern "C" void Init_umap()
 {
-  Module rb_mUmap = 
-    define_module("Umap")
-    .define_singleton_method("run", &umap_run)
-    .define_singleton_method("define_defaults", &define_defaults);
+  Module rb_mUmap =
+      define_module("Umap")
+          .define_singleton_method("run", &umap_run)
+          .define_singleton_method("define_defaults", &define_defaults);
 }
