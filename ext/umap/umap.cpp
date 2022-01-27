@@ -108,7 +108,7 @@ Object umap_run(
 
   umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
 
-  auto na = numo::SFloat({(uint)ndim, (uint)nobs});
+  auto na = numo::SFloat({(uint)nobs, (uint)ndim});
   std::copy(embedding.begin(), embedding.end(), na.write_ptr());
   return na;
 }
