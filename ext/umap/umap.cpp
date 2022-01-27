@@ -10,6 +10,13 @@ typedef typename umappp::Umap<Float> Umap;
 #include <omp.h>
 #endif
 
+struct Status
+{
+  Status(Umap::Status s, std::vector<Float> e) : status(std::move(s)), embedding(std::move(e)) {}
+  Umap::Status status;
+  std::vector<Float> embedding;
+};
+
 using namespace Rice;
 
 Hash define_defaults(Object self)
@@ -96,6 +103,10 @@ Object umap_run(
   }
 
   std::vector<Float> embedding(ndim * nobs);
+
+  auto s = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
+  Status status = Status(std::move(s), std::move(embedding));
+
   return self;
 }
 
