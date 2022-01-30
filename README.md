@@ -5,13 +5,18 @@
 * Compatible with [yaumap](https://github.com/LTLA/yaumap/blob/master/R/umap_from_matrix.R)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
-🚧 alpha
+🚧 alpha - 
 
 ## Installation
 
 ```
-gem specific_install https://github.com/kojix2/umap
+git clone https://github.com/kojix2/umap
+cd umap
+rake compile
+rake install
 ```
+
+* OpenMP is required for multithreading.
 
 ## Usage
 
