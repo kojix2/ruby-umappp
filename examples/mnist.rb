@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require "datasets"
-require "umap"
+require "umappp"
 require "gr/plot"
 
 mnist = Datasets::MNIST.new
