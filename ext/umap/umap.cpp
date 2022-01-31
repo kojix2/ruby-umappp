@@ -43,6 +43,11 @@ Object umap_run(
 {
 #ifdef _OPENMP
   omp_set_num_threads(nthreads);
+#else
+  if (nthreads > 1)
+  {
+    fprintf(stderr, "[umappp.rb] Compiled without OpenMP. Multi-threading is not available.\n");
+  }
 #endif
 
   double local_connectivity = params.get<double>(Symbol("local_connectivity"));
