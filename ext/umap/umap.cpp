@@ -12,7 +12,7 @@ typedef typename umappp::Umap<Float> Umap;
 
 using namespace Rice;
 
-Hash define_defaults(Object self)
+Hash umap_default_parameters(Object self)
 {
   Hash d;
   d[Symbol("local_connectivity")] = Umap::Defaults::local_connectivity;
@@ -39,7 +39,8 @@ Object umap_run(
     numo::SFloat data,
     int ndim,
     int nn_method,
-    int nthreads)
+    int nthreads,
+    int tick = 0)
 {
 #ifdef _OPENMP
   omp_set_num_threads(nthreads);
@@ -107,14 +108,21 @@ Object umap_run(
   auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
 
   int epoch_limit = 0;
-  //  if (tick) {
-  //      epoch_limit = sptr->status.epoch() + tick;
-  //  }
+  if (tick)
+  {
+    epoch_limit = status.epoch() + tick;
+  }
 
   umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
 
   auto na = numo::SFloat({(uint)nobs, (uint)ndim});
   std::copy(embedding.begin(), embedding.end(), na.write_ptr());
+
+  if (status.epoch() != status.num_epochs())
+  {
+    rb_raise(rb_eRuntimeError, "[umappp.rb] Umap::run() failed.\n");
+  }
+
   return na;
 }
 
@@ -122,6 +130,6 @@ extern "C" void Init_umap()
 {
   Module rb_mUmap =
       define_module("Umap")
-          .define_singleton_method("run", &umap_run)
-          .define_singleton_method("define_defaults", &define_defaults);
+          .define_singleton_method("umap_run", &umap_run)
+          .define_singleton_method("default_parameters", &umap_default_parameters);
 }
