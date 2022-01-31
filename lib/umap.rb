@@ -18,7 +18,7 @@ module Umap
 
       params.merge!(opts)
       nnmethod = %i[annoy vptree].index(method.to_sym)
-      data     = Numo::SFloat.cast(ary).transpose
+      data     = Numo::SFloat.cast(ary)
 
       Umap.umap_run(params, data, ndim, nnmethod, nthreads, tick)
     end

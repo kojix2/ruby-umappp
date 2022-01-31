@@ -42,15 +42,6 @@ Object umap_run(
     int nthreads,
     int tick = 0)
 {
-#ifdef _OPENMP
-  omp_set_num_threads(nthreads);
-#else
-  if (nthreads > 1)
-  {
-    fprintf(stderr, "[umappp.rb] Compiled without OpenMP. Multi-threading is not available.\n");
-  }
-#endif
-
   double local_connectivity = params.get<double>(Symbol("local_connectivity"));
   double bandwidth = params.get<double>(Symbol("bandwidth"));
   double mix_ratio = params.get<double>(Symbol("mix_ratio"));
@@ -72,7 +63,6 @@ Object umap_run(
   umap_ptr->set_local_connectivity(local_connectivity);
   umap_ptr->set_bandwidth(bandwidth);
   umap_ptr->set_mix_ratio(mix_ratio);
-  data.read_ptr();
   umap_ptr->set_spread(spread);
   umap_ptr->set_min_dist(min_dist);
   umap_ptr->set_a(a);
@@ -89,16 +79,21 @@ Object umap_run(
 
   // initialize_from_matrix
 
-  size_t* shape = data.shape();
-  int nd = shape[0];
-  int nobs = shape[1];
+  data.read_ptr();
+
+  size_t *shape = data.shape();
+
+  int nd = shape[1];
+  int nobs = shape[0];
+
   const float *y = data.read_ptr();
+
 #ifdef _OPENMP
   omp_set_num_threads(nthreads);
 #else
   if (nthreads > 1)
   {
-    fprintf(stderr, "[umappp.rb] Compiled without OpenMP. Multi-threading is not available.\n");
+    fprintf(stderr, "[umappp] Compiled without OpenMP. Multi-threading is not available.\n");
   }
 #endif
 
@@ -133,7 +128,7 @@ Object umap_run(
 
   if (status.epoch() != status.num_epochs())
   {
-    rb_raise(rb_eRuntimeError, "[umappp.rb] Umap::run() failed.\n");
+    rb_raise(rb_eRuntimeError, "[umappp] Umap::run() failed.\n");
   }
 
   return na;
