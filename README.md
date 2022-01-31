@@ -5,7 +5,7 @@
 * Compatible with [yaumap](https://github.com/LTLA/yaumap/blob/master/R/umap_from_matrix.R)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
-🚧 alpha - Still in development, but it  work somewhat.
+🚧 alpha - Still in development.
 
 ## Installation
 
