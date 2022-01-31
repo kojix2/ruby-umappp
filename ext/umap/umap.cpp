@@ -93,6 +93,15 @@ Object umap_run(
   int nd = shape[0];
   int nobs = shape[1];
   const float *y = data.read_ptr();
+#ifdef _OPENMP
+  omp_set_num_threads(nthreads);
+#else
+  if (nthreads > 1)
+  {
+    fprintf(stderr, "[umappp.rb] Compiled without OpenMP. Multi-threading is not available.\n");
+  }
+#endif
+
   std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
   if (nn_method == 0)
   {
@@ -112,6 +121,10 @@ Object umap_run(
   {
     epoch_limit = status.epoch() + tick;
   }
+
+#ifdef _OPENMP
+  omp_set_num_threads(nthreads);
+#endif
 
   umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
 
