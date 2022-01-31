@@ -1,11 +1,11 @@
 # Umap
 
-🗺️ [Umappp](https://github.com/LTLA/umappp) for Ruby
+🗺️ [Umappp](https://github.com/LTLA/umappp) - Uniform Manifold Approximation and Projection - for Ruby
 
 * Compatible with [yaumap](https://github.com/LTLA/yaumap/blob/master/R/umap_from_matrix.R)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
-🚧 alpha - 
+🚧 alpha - Still in development, but it  work somewhat.
 
 ## Installation
 
@@ -22,6 +22,32 @@ rake install
 
 ```ruby
 Umap.umap(pixels, nthreads: 4)
+```
+
+Parameters and default values
+
+```markdown
+- method               : :annoy (another option is vptree)
+- ndim                 : 2
+- nthreads             : 2 (OpenMP required)
+- tick                 : 0 (Not yet implemented)
+
+<umappp parameters>
+
+- local_connectivity   : 1.0
+- bandwidth            : 1
+- mix_ratio            : 1
+- spread               : 1
+- min_dist             : 0.01
+- a                    : 0
+- b                    : 0
+- repulsion_strength   : 1
+- num_epochs           : 500
+- learning_rate        : 1
+- negative_sample_rate : 5
+- num_neighbors        : 15
+- seed                 : 1234567890
+- batch                : false
 ```
 
 ## Development
