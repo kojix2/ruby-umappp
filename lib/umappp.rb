@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require "numo/narray"
-require_relative "umap/version"
-require_relative "umap/umap"
+require_relative "umappp/version"
+require_relative "umappp/umappp"
 
 # Uniform Manifold Approximation and Projection
-module Umap
+module Umappp
   class Error < StandardError; end
   # Your code goes here...
 
@@ -18,9 +18,9 @@ module Umap
 
       params.merge!(opts)
       nnmethod = %i[annoy vptree].index(method.to_sym)
-      data     = Numo::SFloat.cast(ary).transpose
+      data     = Numo::SFloat.cast(ary)
 
-      Umap.umap_run(params, data, ndim, nnmethod, nthreads, tick)
+      Umappp.umap_run(params, data, ndim, nnmethod, nthreads, tick)
     end
   end
 end
