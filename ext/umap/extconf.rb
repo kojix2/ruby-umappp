@@ -22,4 +22,4 @@ find_header("numo.hpp", File.expand_path("../../include", __dir__))
 dir_config "umap", vendor, vendor
 dir_config "umappp", File.join(vendor, "umappp"), File.join(vendor, "umappp")
 
-create_makefile("umappp/umappp")
+create_makefile("umap/umap")

@@ -17,8 +17,8 @@ require "rake/extensiontask"
 
 task build: :compile
 
-Rake::ExtensionTask.new("umappp") do |ext|
-  ext.lib_dir = "lib/umappp"
+Rake::ExtensionTask.new("umap") do |ext|
+  ext.lib_dir = "lib/umap"
 end
 
 task default: %i[clobber compile test rubocop]

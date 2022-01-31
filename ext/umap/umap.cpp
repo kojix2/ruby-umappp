@@ -42,7 +42,14 @@ Object umap_run(
     int nthreads,
     int tick = 0)
 {
-
+#ifdef _OPENMP
+  omp_set_num_threads(nthreads);
+#else
+  if (nthreads > 1)
+  {
+    fprintf(stderr, "[umappp.rb] Compiled without OpenMP. Multi-threading is not available.\n");
+  }
+#endif
 
   double local_connectivity = params.get<double>(Symbol("local_connectivity"));
   double bandwidth = params.get<double>(Symbol("bandwidth"));
@@ -62,10 +69,10 @@ Object umap_run(
   // setup_parameters
 
   auto umap_ptr = new Umap;
-
   umap_ptr->set_local_connectivity(local_connectivity);
   umap_ptr->set_bandwidth(bandwidth);
   umap_ptr->set_mix_ratio(mix_ratio);
+  data.read_ptr();
   umap_ptr->set_spread(spread);
   umap_ptr->set_min_dist(min_dist);
   umap_ptr->set_a(a);
@@ -82,18 +89,10 @@ Object umap_run(
 
   // initialize_from_matrix
 
-  size_t *shape = data.shape();
-  int nd = shape[1];
-  int nobs = shape[0];
-
-  data.read_ptr();
+  size_t* shape = data.shape();
+  int nd = shape[0];
+  int nobs = shape[1];
   const float *y = data.read_ptr();
-
-  // for (int i = 0; i < (nd * nobs); i++)
-  // {
-  //   fprintf(stderr, "%f ", y[i]);
-  // }
-
 #ifdef _OPENMP
   omp_set_num_threads(nthreads);
 #else
@@ -143,7 +142,7 @@ Object umap_run(
 extern "C" void Init_umap()
 {
   Module rb_mUmap =
-      define_module("Umappp")
+      define_module("Umap")
           .define_singleton_method("umap_run", &umap_run)
           .define_singleton_method("default_parameters", &umap_default_parameters);
 }

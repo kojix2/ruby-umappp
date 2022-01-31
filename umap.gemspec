@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative "lib/umappp/version"
+require_relative "lib/umap/version"
 
 Gem::Specification.new do |spec|
-  spec.name    = "umappp"
-  spec.version = Umappp::VERSION
+  spec.name = "umap"
+  spec.version = Umap::VERSION
   spec.authors = ["kojix2"]
-  spec.email   = ["2xijok@gmail.com"]
+  spec.email = ["2xijok@gmail.com"]
 
   spec.summary = "Umap for Ruby"
   spec.description = "Umappp wrapper for Ruby"
@@ -21,8 +21,10 @@ Gem::Specification.new do |spec|
       (f == __FILE__) || f.match(%r{\A(?:(?:bin|test|spec|features)/|\.(?:git|travis|circleci)|appveyor)})
     end
   end
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.extensions = ["ext/umappp/extconf.rb"]
+  spec.extensions = ["ext/umap/extconf.rb"]
 
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "numo-narray"
