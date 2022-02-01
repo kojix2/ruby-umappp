@@ -9,10 +9,11 @@ x = iris[true, 1..-1]
 y = iris[true, 0]
 
 r = Umap.run(x)
+
 GR.scatter(
   r[true, 0], r[true, 1], [200] * y.size, y,
   title: "iris",
   colormap: 16,
-  colorbar: true,
+  colorbar: true
 )
 gets
