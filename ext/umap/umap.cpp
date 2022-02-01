@@ -111,27 +111,40 @@ Object umap_run(
 
   auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
 
-  int epoch_limit = 0;
-  if (tick)
+  if (tick == 0)
   {
-    epoch_limit = status.epoch() + tick;
+#ifdef _OPENMP
+    omp_set_num_threads(nthreads);
+#endif
+    umap_ptr->run(status, ndim, embedding.data(), 0);
+
+    auto na = numo::SFloat({(uint)nobs, (uint)ndim});
+    std::copy(embedding.begin(), embedding.end(), na.write_ptr());
+
+    return na;
   }
+  else
+  {
+    VALUE ret = rb_ary_new();
+
+    while (status.epoch() < status.num_epochs())
+    {
+      int epoch_limit = status.epoch() + tick;
 
 #ifdef _OPENMP
-  omp_set_num_threads(nthreads);
+      omp_set_num_threads(nthreads);
 #endif
 
-  umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
+      umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
 
-  auto na = numo::SFloat({(uint)nobs, (uint)ndim});
-  std::copy(embedding.begin(), embedding.end(), na.write_ptr());
+      auto na = numo::SFloat({(uint)nobs, (uint)ndim});
+      std::copy(embedding.begin(), embedding.end(), na.write_ptr());
 
-  if (status.epoch() != status.num_epochs())
-  {
-    rb_raise(rb_eRuntimeError, "[umappp] Umap::run() failed.\n");
+      rb_ary_push(ret, na.value());
+    }
+
+    return ret;
   }
-
-  return na;
 }
 
 extern "C" void Init_umap()
