@@ -9,10 +9,6 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["test/**/*_test.rb"]
 end
 
-require "rubocop/rake_task"
-
-RuboCop::RakeTask.new
-
 require "rake/extensiontask"
 
 task build: :compile
@@ -21,4 +17,4 @@ Rake::ExtensionTask.new("umap") do |ext|
   ext.lib_dir = "lib/umap"
 end
 
-task default: %i[clobber compile test rubocop]
+task default: %i[clobber compile test]

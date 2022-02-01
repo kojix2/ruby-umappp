@@ -10,5 +10,3 @@ gem "rake"
 gem "rake-compiler"
 
 gem "test-unit"
-
-gem "rubocop"
