@@ -2,7 +2,7 @@
 
 🗺️ [Umappp](https://github.com/LTLA/umappp) - Uniform Manifold Approximation and Projection - for Ruby
 
-* Compatible with [yaumap](https://github.com/LTLA/yaumap/blob/master/R/umap_from_matrix.R)
+* Compatible with [yaumap](https://github.com/LTLA/yaumap)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
 🚧 alpha - Still in development.
