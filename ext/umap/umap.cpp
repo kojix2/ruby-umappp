@@ -79,14 +79,11 @@ Object umap_run(
 
   // initialize_from_matrix
 
-  data.read_ptr();
-
+  const float *y = data.read_ptr();
   size_t *shape = data.shape();
 
   int nd = shape[1];
   int nobs = shape[0];
-
-  const float *y = data.read_ptr();
 
 #ifdef _OPENMP
   omp_set_num_threads(nthreads);
