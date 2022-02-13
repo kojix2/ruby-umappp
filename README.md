@@ -59,6 +59,10 @@ Parameters and default values
 
 Welcome!
 
+    Do you need commit rights to my repository?
+    Do you want to get admin rights and take over the project?
+    If so, please feel free to contact us @kojix2.
+
 ## License
 
 * As for the code I wrote, it is MIT.
