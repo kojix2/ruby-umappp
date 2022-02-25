@@ -1,5 +1,7 @@
 # Umap
 
+![image](https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png)
+
 🗺️ [Umappp](https://github.com/LTLA/umappp) - Uniform Manifold Approximation and Projection - for Ruby
 
 * Compatible with [yaumap](https://github.com/LTLA/yaumap)
