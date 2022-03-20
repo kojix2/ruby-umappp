@@ -18,7 +18,7 @@ rake compile
 rake install
 ```
 
-* OpenMP is required for multithreading.
+* [OpenMP](https://www.openmp.org) is required for multithreading.
 
 ## Usage
 
@@ -68,4 +68,4 @@ Welcome!
 ## License
 
 * As for the code I wrote, it is MIT.
-* For other codes, please check on your own.
+* For other codes, please check on your own. (There are many dependencies)
