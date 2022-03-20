@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "datasets"
 require "umap"
-require "gr/plot"
+require "datasets" # red-datasets https://github.com/red-data-tools/red-datasets
+require "gr/plot"  # GR.rb https://github.com/red-data-tools/GR.rb
 
 mnist = Datasets::MNIST.new
 
