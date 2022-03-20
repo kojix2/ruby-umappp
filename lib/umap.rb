@@ -10,13 +10,11 @@ module Umap
   # Your code goes here...
 
   class << self
-    def run(ary, method: :annoy, ndim: 2, nthreads: 1, tick: 0, **opts)
-      params = default_parameters
-      unless (u = (opts.keys - params.keys)).empty?
+    def run(ary, method: :annoy, ndim: 2, nthreads: 1, tick: 0, **params)
+      unless (u = (params.keys - default_parameters.keys)).empty?
         raise ArgumentError, "[umappp.rb] unknown option : #{u.inspect}"
       end
 
-      params.merge!(opts)
       nnmethod = %i[annoy vptree].index(method.to_sym)
       data     = Numo::SFloat.cast(ary)
 

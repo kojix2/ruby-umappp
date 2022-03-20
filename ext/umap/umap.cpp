@@ -1,3 +1,7 @@
+// Uniform Manifold Approximation and Projection for Ruby
+// https://github.com/kojix2/umap
+
+
 #include <rice/rice.hpp>
 #include <rice/stl.hpp>
 #include "numo.hpp"
@@ -11,6 +15,8 @@ typedef typename umappp::Umap<Float> Umap;
 #endif
 
 using namespace Rice;
+
+// This function is used to view default parameters from Ruby.
 
 Hash umap_default_parameters(Object self)
 {
@@ -33,6 +39,8 @@ Hash umap_default_parameters(Object self)
   return d;
 }
 
+// Function to perform umap.
+
 Object umap_run(
     Object self,
     Hash params,
@@ -42,20 +50,92 @@ Object umap_run(
     int nthreads,
     int tick = 0)
 {
-  double local_connectivity = params.get<double>(Symbol("local_connectivity"));
-  double bandwidth = params.get<double>(Symbol("bandwidth"));
-  double mix_ratio = params.get<double>(Symbol("mix_ratio"));
-  double spread = params.get<double>(Symbol("spread"));
-  double min_dist = params.get<double>(Symbol("min_dist"));
-  double a = params.get<double>(Symbol("a"));
-  double b = params.get<double>(Symbol("b"));
-  double repulsion_strength = params.get<double>(Symbol("repulsion_strength"));
-  int num_epochs = params.get<int>(Symbol("num_epochs"));
-  double learning_rate = params.get<double>(Symbol("learning_rate"));
-  double negative_sample_rate = params.get<double>(Symbol("negative_sample_rate"));
-  int num_neighbors = params.get<int>(Symbol("num_neighbors"));
-  int seed = params.get<int>(Symbol("seed"));
-  bool batch = params.get<bool>(Symbol("batch"));
+  // Parameters are taken from a Ruby Hash object.
+  // If there is no key, set the default value.
+  
+  double local_connectivity = Umap::Defaults::local_connectivity;
+  if (RTEST(params.call("has_key?", Symbol("local_connectivity"))))
+  {
+    local_connectivity = params.get<double>(Symbol("local_connectivity"));
+  }
+
+  double bandwidth = Umap::Defaults::bandwidth;
+  if (RTEST(params.call("has_key?", Symbol("bandwidth"))))
+  {
+    bandwidth = params.get<double>(Symbol("bandwidth"));
+  }
+
+  double mix_ratio = Umap::Defaults::mix_ratio;
+  if (RTEST(params.call("has_key?", Symbol("mix_ratio"))))
+  {
+    mix_ratio = params.get<double>(Symbol("mix_ratio"));
+  }
+
+  double spread = Umap::Defaults::spread;
+  if (RTEST(params.call("has_key?", Symbol("spread"))))
+  {
+    spread = params.get<double>(Symbol("spread"));
+  }
+
+  double min_dist = Umap::Defaults::min_dist;
+  if (RTEST(params.call("has_key?", Symbol("min_dist"))))
+  {
+    min_dist = params.get<double>(Symbol("min_dist"));
+  }
+
+  double a = Umap::Defaults::a;
+  if (RTEST(params.call("has_key?", Symbol("a"))))
+  {
+    a = params.get<double>(Symbol("a"));
+  }
+
+  double b = Umap::Defaults::b;
+  if (RTEST(params.call("has_key?", Symbol("b"))))
+  {
+    b = params.get<double>(Symbol("b"));
+  }
+
+  double repulsion_strength = Umap::Defaults::repulsion_strength;
+  if (RTEST(params.call("has_key?", Symbol("repulsion_strength"))))
+  {
+    repulsion_strength = params.get<double>(Symbol("repulsion_strength"));
+  }
+
+  int num_epochs = Umap::Defaults::num_epochs;
+  if (RTEST(params.call("has_key?", Symbol("num_epochs"))))
+  {
+    num_epochs = params.get<int>(Symbol("num_epochs"));
+  }
+
+  double learning_rate = Umap::Defaults::learning_rate;
+  if (RTEST(params.call("has_key?", Symbol("learning_rate"))))
+  {
+    learning_rate = params.get<double>(Symbol("learning_rate"));
+  }
+
+  double negative_sample_rate = Umap::Defaults::negative_sample_rate;
+  if (RTEST(params.call("has_key?", Symbol("negative_sample_rate"))))
+  {
+    negative_sample_rate = params.get<double>(Symbol("negative_sample_rate"));
+  }
+
+  int num_neighbors = Umap::Defaults::num_neighbors;
+  if (RTEST(params.call("has_key?", Symbol("num_neighbors"))))
+  {
+    num_neighbors = params.get<int>(Symbol("num_neighbors"));
+  }
+
+  int seed = Umap::Defaults::seed;
+  if (RTEST(params.call("has_key?", Symbol("seed"))))
+  {
+    seed = params.get<int>(Symbol("seed"));
+  }
+
+  bool batch = Umap::Defaults::batch;
+  if (RTEST(params.call("has_key?", Symbol("batch"))))
+  {
+    batch = params.get<bool>(Symbol("batch"));
+  }
 
   // setup_parameters
 
