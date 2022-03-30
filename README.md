@@ -23,7 +23,7 @@ rake install
 ## Usage
 
 ```ruby
-Umap.umap(pixels, nthreads: 4)
+Umap.run(pixels, nthreads: 4)
 ```
 
 Parameters and default values
