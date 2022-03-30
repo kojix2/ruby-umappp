@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.27
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Umap">Umap</h1>
+
+<p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png"></p>
+
+<p>🗺️ <a href="https://github.com/LTLA/umappp">Umappp</a> - Uniform Manifold Approximation and Projection - for Ruby</p>
+<ul><li>
+<p>Compatible with <a href="https://github.com/LTLA/yaumap">yaumap</a></p>
+</li><li>
+<p>Support <a href="https://github.com/ruby-numo/numo-narray">Numo::NArray</a></p>
+</li></ul>
+
+<p>🚧 alpha - Still in development.</p>
+
+<h2 id="label-Installation">Installation</h2>
+
+<pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/umap
+cd umap
+rake compile
+rake install
+</code></pre>
+<ul><li>
+<p><a href="https://www.openmp.org">OpenMP</a> is required for multithreading.</p>
+</li></ul>
+
+<h2 id="label-Usage">Usage</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Umap.html" title="Umap (module)">Umap</a></span></span><span class='period'>.</span><span class='id identifier rubyid_umap'>umap</span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='comma'>,</span> <span class='label'>nthreads:</span> <span class='int'>4</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>Parameters and default values</p>
+
+<pre class="code ruby"><code class="ruby">- method               : :annoy (another option is vptree)
+- ndim                 : 2
+- nthreads             : 2 (OpenMP required)
+- tick                 : 0 (Not yet implemented)
+
+&lt;umappp parameters&gt;
+
+- local_connectivity   : 1.0
+- bandwidth            : 1
+- mix_ratio            : 1
+- spread               : 1
+- min_dist             : 0.01
+- a                    : 0
+- b                    : 0
+- repulsion_strength   : 1
+- num_epochs           : 500
+- learning_rate        : 1
+- negative_sample_rate : 5
+- num_neighbors        : 15
+- seed                 : 1234567890
+- batch                : false
+</code></pre>
+
+<h2 id="label-Development">Development</h2>
+<ul><li>
+<p><a href="https://github.com/ankane/numo.hpp">numo.hpp</a></p>
+</li><li>
+<p><a href="https://github.com/jasonroelofs/rice">rice</a></p>
+</li></ul>
+
+<h2 id="label-Contributing">Contributing</h2>
+
+<p>Welcome!</p>
+
+<pre class="code ruby"><code class="ruby">Do you need commit rights to my repository?
+Do you want to get admin rights and take over the project?
+If so, please feel free to contact us @kojix2.
+</code></pre>
+
+<h2 id="label-License">License</h2>
+<ul><li>
+<p>As for the code I wrote, it is MIT.</p>
+</li><li>
+<p>For other codes, please check on your own. (There are many dependencies)</p>
+</li></ul>
+</div></div>
+
+      <div id="footer">
+  Generated on Wed Mar 30 07:13:22 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-3.1.1).
+</div>
+
+    </div>
+  </body>
+</html>
