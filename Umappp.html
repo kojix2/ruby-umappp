@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Module: Umap
+  Module: Umappp
   
     &mdash; Documentation by YARD 0.9.28
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Umap";
+  pathId = "Umappp";
   relpath = '';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="_index.html">Index (U)</a> &raquo;
     
     
-    <span class="title">Umap</span>
+    <span class="title">Umappp</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Module: Umap
+      <div id="content"><h1>Module: Umappp
   
   
   
@@ -78,8 +78,8 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/umap.rb<span class="defines">,<br />
-  lib/umap/version.rb</span>
+    <dd>lib/umappp.rb<span class="defines">,<br />
+  lib/umappp/version.rb</span>
 </dd>
   </dl>
   
@@ -102,7 +102,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Umap/Error.html" title="Umap::Error (class)">Error</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Umappp/Error.html" title="Umappp::Error (class)">Error</a></span>
     
   
 </p>
@@ -195,7 +195,7 @@
 22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/umap.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/umappp.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_ary'>ary</span><span class='comma'>,</span> <span class='label'>method:</span> <span class='symbol'>:annoy</span><span class='comma'>,</span> <span class='label'>ndim:</span> <span class='int'>2</span><span class='comma'>,</span> <span class='label'>nthreads:</span> <span class='int'>1</span><span class='comma'>,</span> <span class='label'>tick:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='lparen'>(</span><span class='id identifier rubyid_u'>u</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span> <span class='op'>-</span> <span class='id identifier rubyid_default_parameters'>default_parameters</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -205,7 +205,7 @@
   <span class='id identifier rubyid_nnmethod'>nnmethod</span> <span class='op'>=</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>annoy</span><span class='words_sep'> </span><span class='tstring_content'>vptree</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span>     <span class='op'>=</span> <span class='const'>Numo</span><span class='op'>::</span><span class='const'>SFloat</span><span class='period'>.</span><span class='id identifier rubyid_cast'>cast</span><span class='lparen'>(</span><span class='id identifier rubyid_ary'>ary</span><span class='rparen'>)</span>
 
-  <span class='const'><span class='object_link'><a href="" title="Umap (module)">Umap</a></span></span><span class='period'>.</span><span class='id identifier rubyid_umap_run'>umap_run</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_ndim'>ndim</span><span class='comma'>,</span> <span class='id identifier rubyid_nnmethod'>nnmethod</span><span class='comma'>,</span> <span class='id identifier rubyid_nthreads'>nthreads</span><span class='comma'>,</span> <span class='id identifier rubyid_tick'>tick</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_umap_run'>umap_run</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_ndim'>ndim</span><span class='comma'>,</span> <span class='id identifier rubyid_nnmethod'>nnmethod</span><span class='comma'>,</span> <span class='id identifier rubyid_nthreads'>nthreads</span><span class='comma'>,</span> <span class='id identifier rubyid_tick'>tick</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -217,7 +217,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Oct  8 10:59:36 2022 by
+  Generated on Sat Oct  8 12:52:43 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
