@@ -35,6 +35,7 @@ Hash umap_default_parameters(Object self)
   d[Symbol("num_neighbors")] = Umap::Defaults::num_neighbors;
   d[Symbol("seed")] = Umap::Defaults::seed;
   d[Symbol("batch")] = Umap::Defaults::batch;
+  d[Symbol("num_threads")] = Umap::Defaults::num_threads;
 
   return d;
 }
@@ -47,7 +48,6 @@ Object umap_run(
     numo::SFloat data,
     int ndim,
     int nn_method,
-    int nthreads,
     int tick = 0)
 {
   // Parameters are taken from a Ruby Hash object.
@@ -137,6 +137,12 @@ Object umap_run(
     batch = params.get<bool>(Symbol("batch"));
   }
 
+  int num_threads = Umap::Defaults::num_threads;
+  if (RTEST(params.call("has_key?", Symbol("num_threads"))))
+  {
+    num_threads = params.get<int>(Symbol("num_threads"));
+  }
+
   // setup_parameters
 
   auto umap_ptr = new Umap;
@@ -157,6 +163,8 @@ Object umap_run(
   umap_ptr->set_seed(seed);
   umap_ptr->set_batch(batch);
 
+  umap_ptr->set_num_threads(num_threads);
+
   // initialize_from_matrix
 
   const float *y = data.read_ptr();
@@ -164,15 +172,6 @@ Object umap_run(
 
   int nd = shape[1];
   int nobs = shape[0];
-
-#ifdef _OPENMP
-  omp_set_num_threads(nthreads);
-#else
-  if (nthreads > 1)
-  {
-    fprintf(stderr, "[umappp] Compiled without OpenMP. Multi-threading is not available.\n");
-  }
-#endif
 
   std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
   if (nn_method == 0)
@@ -190,9 +189,6 @@ Object umap_run(
 
   if (tick == 0)
   {
-#ifdef _OPENMP
-    omp_set_num_threads(nthreads);
-#endif
     status.run(ndim, embedding.data(), 0);
 
     auto na = numo::SFloat({(uint)nobs, (uint)ndim});
@@ -207,10 +203,6 @@ Object umap_run(
     while (status.epoch() < status.num_epochs())
     {
       int epoch_limit = status.epoch() + tick;
-
-#ifdef _OPENMP
-      omp_set_num_threads(nthreads);
-#endif
 
       status.run(ndim, embedding.data(), epoch_limit);
 
