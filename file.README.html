@@ -69,8 +69,6 @@
 <p>Support <a href="https://github.com/ruby-numo/numo-narray">Numo::NArray</a></p>
 </li></ul>
 
-<p>🚧 alpha - Still in development.</p>
-
 <h2 id="label-Installation">Installation</h2>
 
 <pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/umap
@@ -84,14 +82,13 @@ rake install
 
 <h2 id="label-Usage">Usage</h2>
 
-<pre class="code ruby"><code class="ruby"><span class='const'>Umap</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='comma'>,</span> <span class='label'>nthreads:</span> <span class='int'>4</span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='const'>Umap</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='rparen'>)</span>
 </code></pre>
 
-<p>Parameters and default values</p>
+<p>Parameters and their default values</p>
 
-<pre class="code ruby"><code class="ruby">- method               : :annoy (another option is vptree)
+<pre class="code ruby"><code class="ruby">- method               : :annoy (another option is :vptree)
 - ndim                 : 2
-- nthreads             : 2 (OpenMP required)
 - tick                 : 0 (Not yet implemented)
 
 &lt;umappp parameters&gt;
@@ -110,6 +107,7 @@ rake install
 - num_neighbors        : 15
 - seed                 : 1234567890
 - batch                : false
+- num_threads          : 1 (OpenMP required)
 </code></pre>
 
 <h2 id="label-Development">Development</h2>
@@ -153,7 +151,7 @@ If so, please feel free to contact us @kojix2.
 </div></div>
 
       <div id="footer">
-  Generated on Sat Oct  8 14:32:37 2022 by
+  Generated on Sat Oct  8 14:41:08 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
