@@ -57,6 +57,7 @@ Parameters and default values
 * [numo.hpp](https://github.com/ankane/numo.hpp)
 * [rice](https://github.com/jasonroelofs/rice)
 
+Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically.
 
 ```mermaid
 graph TD;
