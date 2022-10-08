@@ -61,14 +61,17 @@ Umappp's C++ modules have complex dependencies as shown in the figure below. It 
 
 ```mermaid
 graph TD;
-    CppIrlba-->eigen;
-    CppIrlba-->aarand;
-    knncolle-->Annoy;
-    knncolle-->hnswlib;
-    knncolle-->CppKmeans;
-    CppKmeans-->aarand;
-    CppKmeans-->powerit;
-    powerit-->aarand;
+    eigen-->CppIrlba;
+    aarand-->CppIrlba;
+    Annoy-->knncolle;
+    hnswlib-->knncolle;
+    CppKmeans-->knncolle;
+    aarand-->CppKmeans;
+    powerit-->CppKmeans;
+    aarand-->powerit;
+    knncolle-->umappp;
+    aarand-->umappp;
+    CppIrlba-->umappp;
 ```
 
 ## Contributing
