@@ -32,3 +32,7 @@ done
 
 cp -r build/_deps/eigen-src/Eigen ../include/Eigen
 cp -r build/_deps/hnswlib-src/hnswlib/ ../include/hnswlib
+cp -r build/_deps/powerit-src/include/powerit ../include/powerit
+
+rm -rf ../../vendor
+cp -r ../include ../../vendor
