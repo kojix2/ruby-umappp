@@ -8,7 +8,7 @@ require "datasets-numo-narray"
 # GR.rb https://github.com/red-data-tools/GR.rb
 require "gr/plot"
 
-iris = Datasets::LIBSVM.new("iris").to_narrayGR.rb # GR.rb https://github.com/red-data-tools/GR.rb
+iris = Datasets::LIBSVM.new("iris").to_narray
 x = iris[true, 1..-1]
 y = iris[true, 0]
 
