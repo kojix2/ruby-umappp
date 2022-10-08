@@ -193,7 +193,7 @@ Object umap_run(
 #ifdef _OPENMP
     omp_set_num_threads(nthreads);
 #endif
-    umap_ptr->run(status, ndim, embedding.data(), 0);
+    status.run(ndim, embedding.data(), 0);
 
     auto na = numo::SFloat({(uint)nobs, (uint)ndim});
     std::copy(embedding.begin(), embedding.end(), na.write_ptr());
@@ -212,7 +212,7 @@ Object umap_run(
       omp_set_num_threads(nthreads);
 #endif
 
-      umap_ptr->run(status, ndim, embedding.data(), epoch_limit);
+      status.run(ndim, embedding.data(), epoch_limit);
 
       auto na = numo::SFloat({(uint)nobs, (uint)ndim});
       std::copy(embedding.begin(), embedding.end(), na.write_ptr());
