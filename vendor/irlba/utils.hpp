@@ -148,7 +148,7 @@ public:
      *
      * @return The number of singular values/vectors that have achieved convergence.
      */
-    int run(const Eigen::VectorXd& sv, const Eigen::VectorXd& residuals, const Eigen::VectorXd& last) {
+    int run(const Eigen::VectorXd& sv, const Eigen::VectorXd& residuals, const Eigen::VectorXd& last) const {
         int counter = 0;
         double Smax = *std::max_element(sv.begin(), sv.end());
         double svtol_actual = (svtol >= 0 ? svtol : tol);
@@ -204,6 +204,16 @@ struct has_realize_method {
 template<class M>
 struct has_realize_method<M, decltype((void) std::declval<M>().realize(), 0)> {
     static constexpr bool value = std::is_same<decltype(std::declval<M>().realize()), Eigen::MatrixXd>::value;
+};
+
+template<class M, typename = int>
+struct has_data_method {
+    static constexpr bool value = false;
+};
+
+template<class M>
+struct has_data_method<M, decltype((void) (std::declval<M>().data()), 0)> {
+    static constexpr bool value = true;
 };
 /**
  * @endcond

@@ -53,34 +53,29 @@ public:
      */
     struct Defaults {
         /** 
-         * See `set_max_iterations()` for more details.
+         * See `MiniBatch::set_max_iterations()`.
          */
         static constexpr int max_iterations = 100;
 
         /** 
-         * See `set_batch_size()` for more details.
+         * See `MiniBatch::set_batch_size()`.
          */
         static constexpr INDEX_t batch_size = 500;
 
         /** 
-         * See `set_max_change_proportion()` for more details.
+         * See `MiniBatch::set_max_change_proportion()`.
          */
         static constexpr double max_change_proportion = 0.01;
 
         /** 
-         * See `set_convergence_history()` for more details.
+         * See `MiniBatch::set_convergence_history()`.
          */
         static constexpr int convergence_history = 10;
 
         /** 
-         * See `set_seed()` for more details.
+         * See `MiniBatch::set_seed()`.
          */
         static constexpr uint64_t seed = 1234567890;
-
-        /** 
-         * See `set_num_threads()` for more details.
-         */
-        static constexpr int num_threads = 1;
     };
 
 private:
@@ -93,8 +88,6 @@ private:
     double max_change = Defaults::max_change_proportion;
 
     uint64_t seed = Defaults::seed;
-
-    int nthreads = Defaults::num_threads;
 public:
     /**
      * @param i Maximum number of iterations.
@@ -150,16 +143,6 @@ public:
         return *this;
     }
 
-    /**
-     * @param n Number of threads to use.
-     *
-     * @return A reference to this `MiniBatch` object.
-     */
-    MiniBatch& set_num_threads(int n = Defaults::num_threads) {
-        nthreads = n;
-        return *this;
-    }
-
 public:
     /**
      * @param ndim Number of dimensions.
@@ -200,22 +183,10 @@ public:
             }
 
             QuickSearch<DATA_t, CLUSTER_t> index(ndim, ncenters, centers);
-            size_t nchosen = chosen.size();
-
-#ifndef KMEANS_CUSTOM_PARALLEL
-            #pragma omp parallel for num_threads(nthreads)
-            for (size_t i = 0; i < nchosen; ++i) {
-#else
-            KMEANS_CUSTOM_PARALLEL(nchosen, [&](size_t first, size_t last) -> void {
-            for (size_t i = first; i < last; ++i) {
-#endif
+            #pragma omp parallel for
+            for (size_t i = 0; i < chosen.size(); ++i) {
                 clusters[chosen[i]] = index.find(data + chosen[i] * ndim);
-#ifndef KMEANS_CUSTOM_PARALLEL            
             }
-#else
-            }
-            }, nthreads);
-#endif        
 
             // Updating the means for each cluster.
             for (auto o : chosen) {
@@ -265,21 +236,10 @@ public:
 
         // Run through all observations to make sure they have the latest cluster assignments.
         QuickSearch<DATA_t, CLUSTER_t> index(ndim, ncenters, centers);
-
-#ifndef KMEANS_CUSTOM_PARALLEL
-        #pragma omp parallel for num_threads(nthreads)
+        #pragma omp parallel for
         for (INDEX_t o = 0; o < nobs; ++o) {
-#else
-        KMEANS_CUSTOM_PARALLEL(nobs, [&](INDEX_t first, INDEX_t last) -> void {
-        for (INDEX_t o = first; o < last; ++o) {
-#endif
             clusters[o] = index.find(data + o * ndim);
-#ifndef KMEANS_CUSTOM_PARALLEL
         }
-#else
-        }
-        }, nthreads);
-#endif
 
         std::fill(total_sampled.begin(), total_sampled.end(), 0);
         for (INDEX_t o = 0; o < nobs; ++o) {
