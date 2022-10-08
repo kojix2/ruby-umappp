@@ -6,6 +6,7 @@
 #include "../utils/Base.hpp"
 #include "kmeans/Kmeans.hpp"
 
+#include <algorithm>
 #include <vector>
 #include <random>
 #include <limits>
@@ -13,6 +14,12 @@
 
 #ifdef DEBUG
 #include <iostream>
+#endif
+
+#ifndef KMEANS_CUSTOM_PARALLEL
+#ifdef KNNCOLLE_CUSTOM_PARALLEL
+#define KMEANS_CUSTOM_PARALLEL KNNCOLLE_CUSTOM_PARALLEL
+#endif
 #endif
 
 /**
@@ -74,11 +81,12 @@ public:
      * i.e., contiguous elements belong to the same observation.
      * @param power Power of `nobs` to define the number of cluster centers.
      * By default, a square root is performed.
+     * @param nthreads Number of threads to use for the k-means clustering.
      *
      * @tparam INPUT_t Floating-point type of the input data.
      */
     template<typename INPUT_t>
-    Kmknn(INDEX_t ndim, INDEX_t nobs, const INPUT_t* vals, double power = 0.5) : 
+    Kmknn(INDEX_t ndim, INDEX_t nobs, const INPUT_t* vals, double power = 0.5, int nthreads = 1) : 
             num_dim(ndim), 
             num_obs(nobs), 
             data(ndim * nobs), 
@@ -102,6 +110,9 @@ public:
             std::copy(vals, vals + data.size(), data.data());
             host = data.data();
         }
+
+        kmeans::Kmeans<INTERNAL_t, int> krunner;
+        krunner.set_num_threads(nthreads);
         auto output = kmeans::Kmeans<INTERNAL_t, int>().run(ndim, nobs, host, ncenters, centers.data(), clusters.data());
         std::swap(sizes, output.sizes);
 
@@ -152,7 +163,6 @@ public:
     }
 
     std::vector<std::pair<INDEX_t, DISTANCE_t> > find_nearest_neighbors(INDEX_t index, int k) const {
-        assert(index < num_obs);
         NeighborQueue<INDEX_t, INTERNAL_t> nearest(k, new_location[index]);
         search_nn(data.data() + new_location[index] * num_dim, nearest);
         return report(nearest);
