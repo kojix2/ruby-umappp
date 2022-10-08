@@ -7,8 +7,6 @@
 * Compatible with [yaumap](https://github.com/LTLA/yaumap)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
-🚧 alpha - Still in development.
-
 ## Installation
 
 ```
@@ -23,15 +21,14 @@ rake install
 ## Usage
 
 ```ruby
-Umap.run(pixels, nthreads: 4)
+Umap.run(pixels)
 ```
 
-Parameters and default values
+Parameters and their default values
 
 ```markdown
-- method               : :annoy (another option is vptree)
+- method               : :annoy (another option is :vptree)
 - ndim                 : 2
-- nthreads             : 2 (OpenMP required)
 - tick                 : 0 (Not yet implemented)
 
 <umappp parameters>
@@ -50,6 +47,7 @@ Parameters and default values
 - num_neighbors        : 15
 - seed                 : 1234567890
 - batch                : false
+- num_threads          : 1 (OpenMP required)
 ```
 
 ## Development
