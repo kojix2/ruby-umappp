@@ -2,10 +2,10 @@
 
 require "test_helper"
 
-class UmapTest < Test::Unit::TestCase
+class UmapppTest < Test::Unit::TestCase
   test "VERSION" do
     assert do
-      ::Umap.const_defined?(:VERSION)
+      ::Umappp.const_defined?(:VERSION)
     end
   end
 end

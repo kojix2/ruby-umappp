@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in umap.gemspec
+# Specify your gem's dependencies in umappp.gemspec
 gemspec
 
 gem "rake"

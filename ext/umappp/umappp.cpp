@@ -1,5 +1,5 @@
 // Uniform Manifold Approximation and Projection for Ruby
-// https://github.com/kojix2/umap
+// https://github.com/kojix2/umappp
 
 
 #include <rice/rice.hpp>
@@ -224,10 +224,10 @@ Object umap_run(
   }
 }
 
-extern "C" void Init_umap()
+extern "C" void Init_umappp()
 {
-  Module rb_mUmap =
-      define_module("Umap")
+  Module rb_mUmappp =
+      define_module("Umappp")
           .define_singleton_method("umap_run", &umap_run)
           .define_singleton_method("default_parameters", &umap_default_parameters);
 }
