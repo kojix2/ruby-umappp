@@ -10,13 +10,13 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Umap for Ruby"
   spec.description   = "Umappp wrapper for Ruby"
-  spec.homepage      = "https://github.com/kojix2/umappp"
+  spec.homepage      = "https://github.com/kojix2/umap"
   spec.license       = "BSD-2-Clause"
 
   spec.files         = Dir["{lib,ext,vendor}/**/*", "LICENSE.txt", "README.md"]
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/umappp/extconf.rb"]
-  
+
   spec.required_ruby_version = ">= 2.7"
 
   spec.add_dependency "numo-narray"

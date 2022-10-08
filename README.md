@@ -12,7 +12,7 @@
 ## Installation
 
 ```
-git clone https://github.com/kojix2/umappp
+git clone https://github.com/kojix2/umap
 cd umappp
 rake compile
 rake install
