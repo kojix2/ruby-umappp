@@ -106,19 +106,13 @@ public:
      */
     struct Defaults {
         /** 
-         * See `set_max_iterations()` for more details.
+         * See `HartiganWong::set_max_iterations()`.
          */
         static constexpr int max_iterations = 10;
-
-        /** 
-         * See `set_num_threads()` for more details.
-         */
-        static constexpr int num_threads = 1;
     };
 
 private:
     int maxiter = Defaults::max_iterations;
-    int nthreads = Defaults::num_threads;
 
 public:
     /**
@@ -129,16 +123,6 @@ public:
      */
     HartiganWong& set_max_iterations(int m = Defaults::max_iterations) {
         maxiter = m;
-        return *this;
-    }
-
-    /**
-     * @param n Number of threads to use.
-     *
-     * @return A reference to this `HartiganWong` object.
-     */
-    HartiganWong& set_num_threads(int n = Defaults::num_threads) {
-        nthreads = n;
         return *this;
     }
 
@@ -176,13 +160,8 @@ public:
         /* For each point I, find its two closest centres, IC1(I) and 
          * IC2(I). Assign it to IC1(I). 
          */
-#ifndef KMEANS_CUSTOM_PARALLEL
-        #pragma omp parallel for num_threads(nthreads)
+        #pragma omp parallel for
         for (INDEX_t obs = 0; obs < num_obs; ++obs) {
-#else
-        KMEANS_CUSTOM_PARALLEL(num_obs, [&](INDEX_t first, INDEX_t last) -> void {
-        for (INDEX_t obs = first; obs < last; ++obs) {
-#endif
             auto& best = ic1[obs];
             best = 0;
             DATA_t best_dist = squared_distance_from_cluster(obs, best);
@@ -207,12 +186,7 @@ public:
                     }
                 }
             }
-#ifndef KMEANS_CUSTOM_PARALLEL
         }
-#else
-        }
-        }, nthreads);
-#endif
 
         /* Update cluster centres to be the average of points contained 
          * within them. 

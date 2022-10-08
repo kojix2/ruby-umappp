@@ -167,8 +167,9 @@ void optimize_sample(
 
         epoch_of_next_sample[j] += epochs_per_sample[j];
 
-        // The update involves adding num_neg_samples * epoch_of_next_negative_sample[j],
-        // which eventually boils down to setting this to 'n'.
+        // The update to epoch_of_next_negative_sample involves adding
+        // num_neg_samples * epochs_per_negative_sample, which eventually boils
+        // down to setting epoch_of_next_negative_sample to 'n'.
         epoch_of_next_negative_sample[j] = epoch;
     }
 }
@@ -214,7 +215,8 @@ inline void optimize_layout_batched(
     Float initial_alpha,
     SeedFunction seeder,
     EngineFunction creator,
-    int epoch_limit
+    int epoch_limit,
+    int nthreads
 ) {
     auto& n = setup.current_epoch;
     auto num_epochs = setup.total_epochs;
@@ -244,19 +246,31 @@ inline void optimize_layout_batched(
         Float* output = (using_replacement ? embedding : replacement);
         using_replacement = !using_replacement;
 
-        #pragma omp parallel
+#ifndef UMAPPP_CUSTOM_PARALLEL
+        #pragma omp parallel num_threads(nthreads)
         {
             std::vector<Float> buffer(ndim);
-
             #pragma omp for
             for (size_t i = 0; i < setup.head.size(); ++i) {
+#else
+        UMAPPP_CUSTOM_PARALLEL(setup.head.size(), [&](size_t first, size_t last) -> void {
+            std::vector<Float> buffer(ndim);
+            for (size_t i = first; i < last; ++i) {
+#endif
+
                 size_t shift = i * ndim;
                 std::copy(reference + shift, reference + shift + ndim, buffer.data());
                 auto rng = creator(seeds[i]);
                 optimize_sample<true>(i, ndim, reference, buffer.data(), setup, a, b, gamma, alpha, rng, epoch);
                 std::copy(buffer.begin(), buffer.end(), output + shift);
+
+#ifndef UMAPPP_CUSTOM_PARALLEL
             }
         }
+#else
+            }
+        }, nthreads);
+#endif
     }
 
     if (using_replacement) {

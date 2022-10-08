@@ -40,16 +40,10 @@ public:
          * See `set_seed()` for more details.
          */
         static constexpr uint64_t seed = 5489u;
-
-        /**
-         * See `set_num_threads()` for more details.
-         */
-        static constexpr int num_threads = 1;
     };
 
 private:
     uint64_t seed = Defaults::seed;
-    int nthreads = Defaults::num_threads;
 
 public:
     /** 
@@ -58,24 +52,11 @@ public:
      *
      * @return A reference to this `Kmeans` object.
      *
-     * This seed is only used for the default `initializer` instance in `run()`.
-     * Otherwise, if an `initializer` is explicitly passed to `run()`, its seed is respected.
+     * This seed is only used for the default `refiner` and `initializer` instances in `run()`.
+     * Otherwise, the seed from individual instances is respected.
      */
     Kmeans& set_seed(uint64_t s = 5489u) {
         seed = s;
-        return *this;
-    }
-
-    /**
-     * @param n Number of threads to use.
-     *
-     * @return A reference to this `Kmeans` object.
-     *
-     * This setting is only used for the default `refiner` and `initializer` instances in `run()`.
-     * Otherwise, if an `initializer` or `refiner` is explicitly passed to `run()`, the number of threads specified in the instance is respected.
-     */
-    Kmeans& set_num_threads(int n = Defaults::num_threads) {
-        nthreads = n;
         return *this;
     }
 
@@ -107,7 +88,6 @@ public:
     {
         if (initializer == NULL) {
             InitializeKmeansPP<DATA_t, CLUSTER_t, INDEX_t> init;
-            init.set_seed(seed).set_num_threads(nthreads);
             ncenters = init.run(ndim, nobs, data, ncenters, centers, clusters); 
         } else {
             ncenters = initializer->run(ndim, nobs, data, ncenters, centers, clusters); 
@@ -115,7 +95,6 @@ public:
 
         if (refiner == NULL) {
             HartiganWong<DATA_t, CLUSTER_t, INDEX_t> hw;
-            hw.set_num_threads(nthreads);
             return hw.run(ndim, nobs, data, ncenters, centers, clusters);
         } else {
             return refiner->run(ndim, nobs, data, ncenters, centers, clusters);

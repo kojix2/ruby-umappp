@@ -48,19 +48,13 @@ public:
      */
     struct Defaults {
         /** 
-         * See `set_max_iterations()` for more details.
+         * See `Lloyd::set_max_iterations()`.
          */
         static constexpr int max_iterations = 10;
-
-        /** 
-         * See `set_num_threads()` for more details.
-         */
-        static constexpr int num_threads = 1;
     };
 
 private:
     int maxiter = Defaults::max_iterations;
-    int nthreads = Defaults::num_threads;
 
 public:
     /**
@@ -71,16 +65,6 @@ public:
      */
     Lloyd& set_max_iterations(int m = Defaults::max_iterations) {
         maxiter = m;
-        return *this;
-    }
-
-    /**
-     * @param n Number of threads to use.
-     *
-     * @return A reference to this `HartiganWong` object.
-     */
-    Lloyd& set_num_threads(int n = Defaults::num_threads) {
-        nthreads = n;
         return *this;
     }
 
@@ -99,21 +83,10 @@ public:
             // Note that we move the `updated` check outside of this loop
             // so that, in the future, this is more easily parallelized.
             QuickSearch<DATA_t, CLUSTER_t> index(ndim, ncenters, centers);
-
-#ifndef KMEANS_CUSTOM_PARALLEL
-            #pragma omp parallel for num_threads(nthreads)
+            #pragma omp parallel for
             for (INDEX_t obs = 0; obs < nobs; ++obs) {
-#else
-            KMEANS_CUSTOM_PARALLEL(nobs, [&](INDEX_t first, INDEX_t last) -> void {
-            for (INDEX_t obs = first; obs < last; ++obs) {
-#endif
                 copy[obs] = index.find(data + obs * ndim);
-#ifndef KMEANS_CUSTOM_PARALLEL
             }
-#else
-            }
-            }, nthreads);
-#endif
 
             bool updated = false;
             for (INDEX_t obs = 0; obs < nobs; ++obs) {
