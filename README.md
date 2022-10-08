@@ -57,6 +57,19 @@ Parameters and default values
 * [numo.hpp](https://github.com/ankane/numo.hpp)
 * [rice](https://github.com/jasonroelofs/rice)
 
+
+```mermaid
+graph TD;
+    CppIrlba-->eigen;
+    CppIrlba-->aarand;
+    knncolle-->Annoy;
+    knncolle-->hnswlib;
+    knncolle-->CppKmeans;
+    CppKmeans-->aarand;
+    CppKmeans-->powerit;
+    powerit-->aarand;
+```
+
 ## Contributing
 
 Welcome!
