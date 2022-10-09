@@ -3,10 +3,14 @@
 [![test](https://github.com/kojix2/umap/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/umap/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/umappp.svg)](https://badge.fury.io/rb/umappp)
 
-![image](https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png)
-
 🗺️ [Umappp](https://github.com/LTLA/umappp) - Uniform Manifold Approximation and Projection - for Ruby
 
+![image](https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png)
+
+> Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction. 
+> ([original UMAP documentation](https://umap-learn.readthedocs.io/en/latest/index.html))
+
+* Ruby Umappp is a wrapper library for [C++ Umappp library](https://github.com/LTLA/umappp) created by Aaron Lun 
 * Compatible with [yaumap](https://github.com/LTLA/yaumap)
 * Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
@@ -32,29 +36,26 @@ Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
 
 Parameters and their default values
 
-```markdown
-- method               : :annoy (another option is :vptree)
-- ndim                 : 2
-- tick                 : 0 (Not yet implemented)
-
-<umappp parameters>
-
-- local_connectivity   : 1.0
-- bandwidth            : 1
-- mix_ratio            : 1
-- spread               : 1
-- min_dist             : 0.01
-- a                    : 0
-- b                    : 0
-- repulsion_strength   : 1
-- num_epochs           : 500
-- learning_rate        : 1
-- negative_sample_rate : 5
-- num_neighbors        : 15
-- seed                 : 1234567890
-- batch                : false
-- num_threads          : 1 (OpenMP required)
-```
+| parameters           | default value                      |
+|----------------------|------------------------------------|
+| method               | :annoy (another option is :vptree) |
+| ndim                 | 2                                  |
+| tick                 | 0 (Not yet implemented)            |
+| local_connectivity   | 1.0                                |
+| bandwidth            | 1                                  |
+| mix_ratio            | 1                                  |
+| spread               | 1                                  |
+| min_dist             | 0.01                               |
+| a                    | 0                                  |
+| b                    | 0                                  |
+| repulsion_strength   | 1                                  |
+| num_epochs           | 500                                |
+| learning_rate        | 1                                  |
+| negative_sample_rate | 5                                  |
+| num_neighbors        | 15                                 |
+| seed                 | 1234567890                         |
+| batch                | false                              |
+| num_threads          | 1 (OpenMP required)                |
 
 ## Development
 
@@ -98,6 +99,6 @@ Welcome!
 ## License
 
 * As for the code I wrote, it is  BSD 2-Clause (or MIT).
-* The license of Umappp for C++ by Aaron Lun is BSD 2-CThe license of Umappp for C++ by Aaron Lun is BSD-2.lause.
+* The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.
 * For other codes, please check on your own. (There are many dependencies)
  
