@@ -21,8 +21,13 @@ gem install umappp
 
 ## Usage
 
+This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. In any case, the argument is converted to `Numo::SFloat`.
+
 ```ruby
-Umap.run(pixels)
+Umappp.run(embedding)
+
+# with parameters
+Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
 ```
 
 Parameters and their default values
@@ -92,6 +97,7 @@ Welcome!
 
 ## License
 
-* As for the code I wrote, it is  BSD 2-clause (or MIT).
+* As for the code I wrote, it is  BSD 2-Clause (or MIT).
+* The license of Umappp for C++ by Aaron Lun is BSD 2-CThe license of Umappp for C++ by Aaron Lun is BSD-2.lause.
 * For other codes, please check on your own. (There are many dependencies)
  
