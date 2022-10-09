@@ -62,10 +62,16 @@
 
 <p><a href="https://github.com/kojix2/umap/actions/workflows/ci.yml"><img src="https://github.com/kojix2/umap/actions/workflows/ci.yml/badge.svg"></a> <a href="https://badge.fury.io/rb/umappp"><img src="https://badge.fury.io/rb/umappp.svg"></a></p>
 
+<p>🗺️ <a href="https://github.com/LTLA/umappp">Umappp</a> - Uniform Manifold Approximation and Projection - for Ruby</p>
+
 <p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png"></p>
 
-<p>🗺️ <a href="https://github.com/LTLA/umappp">Umappp</a> - Uniform Manifold Approximation and Projection - for Ruby</p>
+<blockquote>
+<p>Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction. (<a href="https://umap-learn.readthedocs.io/en/latest/index.html">original UMAP documentation</a>)</p>
+</blockquote>
 <ul><li>
+<p>Ruby Umappp is a wrapper library for <a href="https://github.com/LTLA/umappp">C++ Umappp library</a> created by Aaron Lun</p>
+</li><li>
 <p>Compatible with <a href="https://github.com/LTLA/yaumap">yaumap</a></p>
 </li><li>
 <p>Support <a href="https://github.com/ruby-numo/numo-narray">Numo::NArray</a></p>
@@ -91,28 +97,88 @@
 
 <p>Parameters and their default values</p>
 
-<pre class="code ruby"><code class="ruby">- method               : :annoy (another option is :vptree)
-- ndim                 : 2
-- tick                 : 0 (Not yet implemented)
-
-&lt;umappp parameters&gt;
-
-- local_connectivity   : 1.0
-- bandwidth            : 1
-- mix_ratio            : 1
-- spread               : 1
-- min_dist             : 0.01
-- a                    : 0
-- b                    : 0
-- repulsion_strength   : 1
-- num_epochs           : 500
-- learning_rate        : 1
-- negative_sample_rate : 5
-- num_neighbors        : 15
-- seed                 : 1234567890
-- batch                : false
-- num_threads          : 1 (OpenMP required)
-</code></pre>
+<table role="table">
+<thead>
+<tr>
+<th>parameters</th>
+<th>default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>method</td>
+<td>:annoy (another option is :vptree)</td>
+</tr>
+<tr>
+<td>ndim</td>
+<td>2</td>
+</tr>
+<tr>
+<td>tick</td>
+<td>0 (Not yet implemented)</td>
+</tr>
+<tr>
+<td>local_connectivity</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>bandwidth</td>
+<td>1</td>
+</tr>
+<tr>
+<td>mix_ratio</td>
+<td>1</td>
+</tr>
+<tr>
+<td>spread</td>
+<td>1</td>
+</tr>
+<tr>
+<td>min_dist</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>a</td>
+<td>0</td>
+</tr>
+<tr>
+<td>b</td>
+<td>0</td>
+</tr>
+<tr>
+<td>repulsion_strength</td>
+<td>1</td>
+</tr>
+<tr>
+<td>num_epochs</td>
+<td>500</td>
+</tr>
+<tr>
+<td>learning_rate</td>
+<td>1</td>
+</tr>
+<tr>
+<td>negative_sample_rate</td>
+<td>5</td>
+</tr>
+<tr>
+<td>num_neighbors</td>
+<td>15</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>1234567890</td>
+</tr>
+<tr>
+<td>batch</td>
+<td>false</td>
+</tr>
+<tr>
+<td>num_threads</td>
+<td>1 (OpenMP required)</td>
+</tr>
+</tbody>
+</table>
 
 <h2 id="label-Development">Development</h2>
 
@@ -159,14 +225,14 @@ If so, please feel free to contact us @kojix2.
 <ul><li>
 <p>As for the code I wrote, it is BSD 2-Clause (or MIT).</p>
 </li><li>
-<p>The license of Umappp for C++ by Aaron Lun is BSD 2-CThe license of Umappp for C++ by Aaron Lun is BSD-2.lause.</p>
+<p>The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.</p>
 </li><li>
 <p>For other codes, please check on your own. (There are many dependencies)</p>
 </li></ul>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Oct  9 06:44:54 2022 by
+  Generated on Sun Oct  9 07:01:10 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
