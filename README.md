@@ -12,11 +12,9 @@
 
 ## Installation
 
+
 ```
-git clone https://github.com/kojix2/umap
-cd umappp
-rake compile
-rake install
+gem install umappp
 ```
 
 * [OpenMP](https://www.openmp.org) is required for multithreading.
@@ -55,8 +53,17 @@ Parameters and their default values
 
 ## Development
 
-* [numo.hpp](https://github.com/ankane/numo.hpp)
-* [rice](https://github.com/jasonroelofs/rice)
+```
+git clone https://github.com/kojix2/umap
+cd umap
+bundle install
+bundle exec rake compile
+bundle exec rake test
+```
+
+* Ruby dependencies
+  * [numo.hpp](https://github.com/ankane/numo.hpp) 
+  * [rice](https://github.com/jasonroelofs/rice)
 
 Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically.
 
