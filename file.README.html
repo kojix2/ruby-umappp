@@ -73,10 +73,7 @@
 
 <h2 id="label-Installation">Installation</h2>
 
-<pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/umap
-cd umappp
-rake compile
-rake install
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_umappp'>umappp</span>
 </code></pre>
 <ul><li>
 <p><a href="https://www.openmp.org">OpenMP</a> is required for multithreading.</p>
@@ -113,7 +110,16 @@ rake install
 </code></pre>
 
 <h2 id="label-Development">Development</h2>
+
+<pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/umap
+cd umap
+bundle install
+bundle exec rake compile
+bundle exec rake test
+</code></pre>
 <ul><li>
+<p>Ruby dependencies</p>
+</li><li>
 <p><a href="https://github.com/ankane/numo.hpp">numo.hpp</a></p>
 </li><li>
 <p><a href="https://github.com/jasonroelofs/rice">rice</a></p>
@@ -153,7 +159,7 @@ If so, please feel free to contact us @kojix2.
 </div></div>
 
       <div id="footer">
-  Generated on Sat Oct  8 14:58:39 2022 by
+  Generated on Sun Oct  9 05:10:39 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
