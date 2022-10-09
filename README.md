@@ -25,16 +25,16 @@ gem install umappp
 
 ## Usage
 
-This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. In any case, the argument is converted to `Numo::SFloat`.
+This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. [Numo](https://github.com/ruby-numo/numo-narray) is a library for performing N-dimensional array computing like NumPy. The argument is converted to `Numo::SFloat`. SFloat is a single precision floating point number type of Numo::NArray.
 
 ```ruby
-Umappp.run(embedding)
+Umappp.run(embedding) # embedding is two-dimensional Ruby array or Numo array
 
 # with parameters
 Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
 ```
 
-Parameters and their default values
+Available parameters and their default values
 
 | parameters           | default value                      |
 |----------------------|------------------------------------|
@@ -62,20 +62,23 @@ Parameters and their default values
 ```
 git clone https://github.com/kojix2/umap
 cd umap
-bundle install
-bundle exec rake compile
+b ndle dle exec rake compile
 bundle exec rake test
 ```
 
-* Ruby dependencies
-  * [numo.hpp](https://github.com/ankane/numo.hpp) 
-  * [rice](https://github.com/jasonroelofs/rice)
+### Ruby dependencies
 
-Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically.
+* [rice](https://github.com/jasonroelofs/rice) - Ruby Interface for C++ Extensions
+* [numo.hpp](https://github.com/ankane/numo.hpp) - C++ header for Numo and Rice
+
+### Umappp dependencies
+
+This Gem is a wrapper for [Umappp](https://github.com/LTLA/umappp). We store and distribute Umappp and other dependent C++ code in the Vendor directory. Umappp is compiled when the Gem is installed. Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically. This actually runs cmake and moves the required directories to the vendor directory.
+
 
 ```mermaid
 graph TD;
-    eigen-->CppIrlba;
+    id1(eigen)-->CppIrlba;
     aarand-->CppIrlba;
     Annoy-->knncolle;
     hnswlib-->knncolle;
@@ -86,7 +89,10 @@ graph TD;
     knncolle-->umappp;
     aarand-->umappp;
     CppIrlba-->umappp;
+    style id1 fill:#f9f,stroke:#333
 ```
+
+All modules except eigen are the work of Aaron Lun.
 
 ## Contributing
 
