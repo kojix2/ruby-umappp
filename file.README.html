@@ -81,7 +81,12 @@
 
 <h2 id="label-Usage">Usage</h2>
 
-<pre class="code ruby"><code class="ruby"><span class='const'>Umap</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='rparen'>)</span>
+<p>This Gem provides the module <code>Umappp</code> and its singular method <code>Umappp.run()</code>. The first argument of <code>Umappp.run()</code> is a two-dimensional Ruby array or a two-dimensional Numo array. In any case, the argument is converted to <code>Numo::SFloat</code>.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_embedding'>embedding</span><span class='rparen'>)</span>
+
+<span class='comment'># with parameters
+</span><span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='comma'>,</span> <span class='label'>num_threads:</span> <span class='int'>8</span><span class='comma'>,</span> <span class='label'>a:</span> <span class='float'>1.8956</span><span class='comma'>,</span> <span class='label'>b:</span> <span class='float'>0.8006</span><span class='rparen'>)</span>
 </code></pre>
 
 <p>Parameters and their default values</p>
@@ -152,14 +157,16 @@ If so, please feel free to contact us @kojix2.
 
 <h2 id="label-License">License</h2>
 <ul><li>
-<p>As for the code I wrote, it is BSD 2-clause (or MIT).</p>
+<p>As for the code I wrote, it is BSD 2-Clause (or MIT).</p>
+</li><li>
+<p>The license of Umappp for C++ by Aaron Lun is BSD 2-CThe license of Umappp for C++ by Aaron Lun is BSD-2.lause.</p>
 </li><li>
 <p>For other codes, please check on your own. (There are many dependencies)</p>
 </li></ul>
 </div></div>
 
       <div id="footer">
-  Generated on Sun Oct  9 05:36:15 2022 by
+  Generated on Sun Oct  9 06:44:54 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
