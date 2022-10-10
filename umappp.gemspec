@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Umap for Ruby"
   spec.description   = "Umappp wrapper for Ruby"
-  spec.homepage      = "https://github.com/kojix2/umap"
+  spec.homepage      = "https://github.com/kojix2/ruby-umappp"
   spec.license       = "BSD-2-Clause"
 
   spec.files         = Dir["{lib,ext,vendor}/**/*", "LICENSE.txt", "README.md"]

@@ -1,6 +1,6 @@
 # Umappp - UMAP for Ruby
 
-[![test](https://github.com/kojix2/umap/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/umap/actions/workflows/ci.yml)
+[![test](https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml/badge.svg)](https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/umappp.svg)](https://badge.fury.io/rb/umappp)
 
 🗺️ [Umappp](https://github.com/LTLA/umappp) - Uniform Manifold Approximation and Projection - for Ruby
@@ -60,7 +60,7 @@ Available parameters and their default values
 ## Development
 
 ```
-git clone https://github.com/kojix2/umap
+git clone https://github.com/kojix2/ruby-umappp
 cd umap
 b ndle dle exec rake compile
 bundle exec rake test

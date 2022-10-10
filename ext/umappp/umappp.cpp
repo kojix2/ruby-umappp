@@ -1,5 +1,5 @@
 // Uniform Manifold Approximation and Projection for Ruby
-// https://github.com/kojix2/umap
+// https://github.com/kojix2/ruby-umappp
 
 
 #include <rice/rice.hpp>
