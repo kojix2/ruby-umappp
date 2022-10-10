@@ -18,7 +18,7 @@ using namespace Rice;
 
 // This function is used to view default parameters from Ruby.
 
-Hash umap_default_parameters(Object self)
+Hash umappp_default_parameters(Object self)
 {
   Hash d;
   d[Symbol("local_connectivity")] = Umap::Defaults::local_connectivity;
@@ -42,7 +42,7 @@ Hash umap_default_parameters(Object self)
 
 // Function to perform umap.
 
-Object umap_run(
+Object umappp_run(
     Object self,
     Hash params,
     numo::SFloat data,
@@ -215,6 +215,6 @@ extern "C" void Init_umappp()
 {
   Module rb_mUmappp =
       define_module("Umappp")
-          .define_singleton_method("umap_run", &umap_run)
-          .define_singleton_method("default_parameters", &umap_default_parameters);
+          .define_singleton_method("umappp_run", &umappp_run)
+          .define_singleton_method("umappp_default_parameters", &umappp_default_parameters);
 }
