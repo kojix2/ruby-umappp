@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/kojix2/ruby-umappp"
   spec.license       = "BSD-2-Clause"
 
-  spec.files         = Dir["{lib,ext,vendor}/**/*", "LICENSE.txt", "README.md"]
+  spec.files         = Dir["{ext,vendor}/**/*", "lib/**/*.rb", "LICENSE.txt", "README.md"]
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/umappp/extconf.rb"]
 
