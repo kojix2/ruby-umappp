@@ -14,12 +14,12 @@ mnist.each_with_index do |r, _i|
 end
 
 puts "start umap"
-d = Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
+d = Umappp.run(pixels, num_threads: 15, a: 1.8956, b: 0.8006)
 puts "end umap"
 
 x = d[true, 0]
 y = d[true, 1]
 
-GR.scatter(x, y, [100] * x.size, labels, colormap: 0)
+GR.scatter(x, y, [500] * x.size, labels, colormap: 0)
 
 gets
