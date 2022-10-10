@@ -51,120 +51,115 @@ Object umap_run(
     int tick = 0)
 {
   // Parameters are taken from a Ruby Hash object.
-  // If there is no key, set the default value.
+  // If there is key, set the value.
   
+  auto umap_ptr = new Umap;
+
   double local_connectivity = Umap::Defaults::local_connectivity;
   if (RTEST(params.call("has_key?", Symbol("local_connectivity"))))
   {
     local_connectivity = params.get<double>(Symbol("local_connectivity"));
+    umap_ptr->set_local_connectivity(local_connectivity);
   }
 
   double bandwidth = Umap::Defaults::bandwidth;
   if (RTEST(params.call("has_key?", Symbol("bandwidth"))))
   {
     bandwidth = params.get<double>(Symbol("bandwidth"));
+    umap_ptr->set_bandwidth(bandwidth);
   }
 
   double mix_ratio = Umap::Defaults::mix_ratio;
   if (RTEST(params.call("has_key?", Symbol("mix_ratio"))))
   {
     mix_ratio = params.get<double>(Symbol("mix_ratio"));
+    umap_ptr->set_mix_ratio(mix_ratio);
   }
 
   double spread = Umap::Defaults::spread;
   if (RTEST(params.call("has_key?", Symbol("spread"))))
   {
     spread = params.get<double>(Symbol("spread"));
+    umap_ptr->set_spread(spread);
   }
 
   double min_dist = Umap::Defaults::min_dist;
   if (RTEST(params.call("has_key?", Symbol("min_dist"))))
   {
     min_dist = params.get<double>(Symbol("min_dist"));
+    umap_ptr->set_min_dist(min_dist);
   }
 
   double a = Umap::Defaults::a;
   if (RTEST(params.call("has_key?", Symbol("a"))))
   {
     a = params.get<double>(Symbol("a"));
+    umap_ptr->set_a(a);
   }
 
   double b = Umap::Defaults::b;
   if (RTEST(params.call("has_key?", Symbol("b"))))
   {
     b = params.get<double>(Symbol("b"));
+    umap_ptr->set_b(b);
   }
 
   double repulsion_strength = Umap::Defaults::repulsion_strength;
   if (RTEST(params.call("has_key?", Symbol("repulsion_strength"))))
   {
     repulsion_strength = params.get<double>(Symbol("repulsion_strength"));
+    umap_ptr->set_repulsion_strength(repulsion_strength);
   }
 
   int num_epochs = Umap::Defaults::num_epochs;
   if (RTEST(params.call("has_key?", Symbol("num_epochs"))))
   {
     num_epochs = params.get<int>(Symbol("num_epochs"));
+    umap_ptr->set_num_epochs(num_epochs);
   }
 
   double learning_rate = Umap::Defaults::learning_rate;
   if (RTEST(params.call("has_key?", Symbol("learning_rate"))))
   {
     learning_rate = params.get<double>(Symbol("learning_rate"));
+    umap_ptr->set_learning_rate(learning_rate);
   }
 
   double negative_sample_rate = Umap::Defaults::negative_sample_rate;
   if (RTEST(params.call("has_key?", Symbol("negative_sample_rate"))))
   {
     negative_sample_rate = params.get<double>(Symbol("negative_sample_rate"));
+    umap_ptr->set_negative_sample_rate(negative_sample_rate);
   }
 
   int num_neighbors = Umap::Defaults::num_neighbors;
   if (RTEST(params.call("has_key?", Symbol("num_neighbors"))))
   {
     num_neighbors = params.get<int>(Symbol("num_neighbors"));
+    umap_ptr->set_num_neighbors(num_neighbors);
   }
 
   int seed = Umap::Defaults::seed;
   if (RTEST(params.call("has_key?", Symbol("seed"))))
   {
     seed = params.get<int>(Symbol("seed"));
+    umap_ptr->set_seed(seed);
   }
 
   bool batch = Umap::Defaults::batch;
   if (RTEST(params.call("has_key?", Symbol("batch"))))
   {
     batch = params.get<bool>(Symbol("batch"));
+    umap_ptr->set_batch(batch);
   }
 
   int num_threads = Umap::Defaults::num_threads;
   if (RTEST(params.call("has_key?", Symbol("num_threads"))))
   {
     num_threads = params.get<int>(Symbol("num_threads"));
+    umap_ptr->set_num_threads(num_threads);
   }
-
-  // setup_parameters
-
-  auto umap_ptr = new Umap;
-  umap_ptr->set_local_connectivity(local_connectivity);
-  umap_ptr->set_bandwidth(bandwidth);
-  umap_ptr->set_mix_ratio(mix_ratio);
-  umap_ptr->set_spread(spread);
-  umap_ptr->set_min_dist(min_dist);
-  umap_ptr->set_a(a);
-  umap_ptr->set_b(b);
-
-  umap_ptr->set_repulsion_strength(repulsion_strength);
-  umap_ptr->set_num_epochs(num_epochs);
-  umap_ptr->set_learning_rate(learning_rate);
-  umap_ptr->set_negative_sample_rate(negative_sample_rate);
-
-  umap_ptr->set_num_neighbors(num_neighbors);
-  umap_ptr->set_seed(seed);
-  umap_ptr->set_batch(batch);
-
-  umap_ptr->set_num_threads(num_threads);
-
+  
   // initialize_from_matrix
 
   const float *y = data.read_ptr();
