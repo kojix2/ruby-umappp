@@ -18,17 +18,19 @@ puts "start umap"
 
 nproc = Etc.nprocessors
 n = nproc > 4 ? nproc - 1 : nproc
-d = Umappp.run(pixels, num_threads: n, a: 1.8956, b: 0.8006)
+d = Umappp.run(pixels, ndim: 3, num_threads: n, a: 1.8956, b: 0.8006)
 
 # Save results
-File.binwrite("mnist.dat", Marshal.dump([d, labels]))
+File.binwrite("mnist2.dat", Marshal.dump([d, labels]))
 
 puts "end umap"
 
 x = d[true, 0]
 y = d[true, 1]
-s = [500] * x.size
+z = d[true, 2]
 
-GR.scatter(x, y, s, labels, colormap: 0)
-
-gets # Wait for key input
+GR.beginprint("mnist2.gif")
+30.times do |i|
+  GR.scatter3(x, y, z, labels, colormap: 0, backgroundcolor: 1, rotation: i * 3)
+end
+GR.endprint

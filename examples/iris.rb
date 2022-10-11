@@ -1,23 +1,22 @@
 # frozen_string_literal: true
 
 require "umappp"
-
-# red-datasets-numo-narray https://github.com/red-data-tools/red-datasets-numo-narray
-require "datasets-numo-narray"
-
-# GR.rb https://github.com/red-data-tools/GR.rb
-require "gr/plot"
+require "datasets-numo-narray" # https://github.com/red-data-tools/red-datasets-numo-narray
+require "gr/plot" # https://github.com/red-data-tools/GR.rb
 
 iris = Datasets::LIBSVM.new("iris").to_narray
-x = iris[true, 1..-1]
-y = iris[true, 0]
+d = iris[true, 1..-1]
+l = iris[true, 0]
 
-r = Umappp.run(x)
+r = Umappp.run(d)
+x = r[true, 0]
+y = r[true, 1]
+s = [1500] * l.size
 
 GR.scatter(
-  r[true, 0], r[true, 1], [2000] * y.size, y,
+  x, y, s, l,
   title: "iris",
-  colormap: 16,
-  colorbar: true
+  colormap: 16
 )
+GR.savefig("iris.png")
 gets
