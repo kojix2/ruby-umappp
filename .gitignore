@@ -14,5 +14,8 @@
 *.lock
 mkmf.log
 
+/examples/data/*.png
+/examples/data/*.gif
+/examples/data/*.dat
 /script/include
 /script/temp

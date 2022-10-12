@@ -18,5 +18,10 @@ GR.scatter(
   title: "iris",
   colormap: 16
 )
-GR.savefig("iris.png")
-gets
+
+Dir.chdir(__dir__) do
+  GR.savefig("data/iris.png")
+end
+
+puts "Press any key to exit"
+gets # Wait for key input
