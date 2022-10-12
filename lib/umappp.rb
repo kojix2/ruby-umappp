@@ -44,8 +44,11 @@ module Umappp
     end
 
     nnmethod = %i[annoy vptree].index(method.to_sym)
-    data     = Numo::SFloat.cast(embedding)
+    raise ArgumentError, "method must be :annoy or :vptree" if nnmethod.nil?
 
-    umappp_run(params, data, ndim, nnmethod, tick)
+    embedding2 = Numo::SFloat.cast(embedding)
+    raise ArgumentError, "embedding must be a 2D array" if embedding2.ndim <= 1
+
+    umappp_run(params, embedding2, ndim, nnmethod, tick)
   end
 end
