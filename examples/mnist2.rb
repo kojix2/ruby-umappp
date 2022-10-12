@@ -28,6 +28,7 @@ z = d[true, 2]
 Dir.chdir(__dir__) do
   # Save results
   File.binwrite("data/mnist2.dat", Marshal.dump([d, labels]))
+  puts "Saved to data/mnist2.dat"
   # Save gif animation
   GR.beginprint("data/mnist2.gif") do
     30.times do |i|
@@ -35,4 +36,5 @@ Dir.chdir(__dir__) do
       GR.scatter3(x, y, z, labels, colormap: 0, backgroundcolor: 1, rotation: i * 3)
     end
   end
+  puts "Saved to data/mnist2.gif"
 end

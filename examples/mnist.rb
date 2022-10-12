@@ -29,8 +29,10 @@ GR.scatter(x, y, s, labels, colormap: 0)
 Dir.chdir(__dir__) do
   # Save results
   File.binwrite("data/mnist.dat", Marshal.dump([d, labels]))
+  puts "Saved to data/mnist.dat"
   # Save plot
   GR.savefig("data/mnist.png")
+  puts "Saved to data/mnist.png"
 end
 
 puts "Press any key to exit"

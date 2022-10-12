@@ -21,6 +21,7 @@ GR.scatter(
 
 Dir.chdir(__dir__) do
   GR.savefig("data/iris.png")
+  puts "Saved to data/iris.png"
 end
 
 puts "Press any key to exit"
