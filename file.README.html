@@ -89,10 +89,12 @@
 
 <p>This Gem provides the module <code>Umappp</code> and its singular method <code>Umappp.run()</code>. The first argument of <code>Umappp.run()</code> is a two-dimensional Ruby array or a two-dimensional Numo array. <a href="https://github.com/ruby-numo/numo-narray">Numo</a> is a library for performing N-dimensional array computing like NumPy. The argument is converted to <code>Numo::SFloat</code>. SFloat is a single precision floating point number type of Numo::NArray.</p>
 
-<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_embedding'>embedding</span><span class='rparen'>)</span> <span class='comment'># embedding is two-dimensional Ruby array or Numo array
-</span>
-<span class='comment'># with parameters
-</span><span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='comma'>,</span> <span class='label'>num_threads:</span> <span class='int'>8</span><span class='comma'>,</span> <span class='label'>a:</span> <span class='float'>1.8956</span><span class='comma'>,</span> <span class='label'>b:</span> <span class='float'>0.8006</span><span class='rparen'>)</span>
+<pre class="code ruby"><code class="ruby"><span class='comment'># The embedding is two-dimensional Ruby array or Numo array
+</span><span class='comment'># Returns Numo::SFloat
+</span><span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_embedding'>embedding</span><span class='rparen'>)</span>
+
+<span class='comment'># Run with parameters
+</span><span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_pixels'>pixels</span><span class='comma'>,</span> <span class='label'>num_threads:</span> <span class='int'>8</span><span class='comma'>,</span> <span class='label'>a:</span> <span class='float'>1.8956</span><span class='comma'>,</span> <span class='label'>b:</span> <span class='float'>0.8006</span><span class='rparen'>)</span>
 </code></pre>
 
 <p>Available parameters and their default values</p>
@@ -236,7 +238,7 @@ If so, please feel free to contact us @kojix2.
 </div></div>
 
       <div id="footer">
-  Generated on Wed Oct 12 00:42:07 2022 by
+  Generated on Thu Oct 13 05:43:20 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.1.2).
 </div>
