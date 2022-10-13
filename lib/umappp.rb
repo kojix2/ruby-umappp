@@ -37,6 +37,7 @@ module Umappp
   # @param seed [Integer]
   # @param batch [Boolean]
   # @param num_threads [Integer]
+  # @return [Numo::SFloat] the final embedding
 
   def self.run(embedding, method: :annoy, ndim: 2, tick: 0, **params)
     unless (u = (params.keys - default_parameters.keys)).empty?
