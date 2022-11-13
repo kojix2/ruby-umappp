@@ -2,7 +2,7 @@
 
 require "umappp"
 require "datasets" # red-datasets https://github.com/red-data-tools/red-datasets
-require "gr/plot"  # GR.rb https://github.com/red-data-tools/GR.rb
+require "numo/gnuplot"
 require "etc"
 
 mnist = Datasets::MNIST.new
@@ -13,6 +13,7 @@ mnist.each_with_index do |r, _i|
   pixels << r.pixels
   labels << r.label
 end
+l = Numo::Int8.cast(labels)
 
 nproc = Etc.nprocessors
 n = nproc > 4 ? nproc - 1 : nproc
@@ -23,14 +24,17 @@ puts "end umap"
 
 x = d[true, 0]
 y = d[true, 1]
-s = [500] * x.size
 
-GR.scatter(x, y, s, labels, colormap: 0)
-Dir.chdir(__dir__) do
-  # File.binwrite("data/mnist.dat", Marshal.dump([d, labels]))
-  GR.savefig("data/mnist.png")
-  puts "Saved to data/mnist.png"
+plots = 10.times.map do |i|
+  [x[l.eq(i)], y[l.eq(i)], { with: "points", pt: 7, ps: 0.2, t: "#{i}" }]
 end
 
-puts "Press any key to exit"
-gets # Wait for key input
+Dir.chdir(__dir__) do
+  Numo.gnuplot do
+    set :term, "pngcairo"
+    set :output, "data/mnist_gnuplot.png"
+    set :key, "left top"
+    plot(*plots)
+  end
+  puts "Saved to data/mnist_gnuplot.png"
+end
