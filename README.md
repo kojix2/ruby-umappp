@@ -16,13 +16,11 @@
 
 ## Installation
 
-
 ```
 gem install umappp
 ```
 
 * [OpenMP](https://www.openmp.org) is required for multithreading.
-* Windows is not supported
 
 ## Usage
 
