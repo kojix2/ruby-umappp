@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
-        os:   [ 'ubuntu', 'macos' ]
+        os:   [ 'ubuntu', 'macos', 'windows' ]
         ruby: [ '2.7', '3.0', '3.1' ]
     steps:
     - uses: actions/checkout@v3
