@@ -1,7 +1,6 @@
 // Uniform Manifold Approximation and Projection for Ruby
 // https://github.com/kojix2/ruby-umappp
 
-
 #include <rice/rice.hpp>
 #include <rice/stl.hpp>
 #include "numo.hpp"
@@ -52,7 +51,7 @@ Object umappp_run(
 {
   // Parameters are taken from a Ruby Hash object.
   // If there is key, set the value.
-  
+
   auto umap_ptr = new Umap;
 
   double local_connectivity = Umap::Defaults::local_connectivity;
@@ -159,7 +158,7 @@ Object umappp_run(
     num_threads = params.get<int>(Symbol("num_threads"));
     umap_ptr->set_num_threads(num_threads);
   }
-  
+
   // initialize_from_matrix
 
   const float *y = data.read_ptr();
@@ -181,12 +180,16 @@ Object umappp_run(
   std::vector<Float> embedding(ndim * nobs);
 
   auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
-
+  if (nobs < 0 || ndim < 0)
+  {
+    throw std::runtime_error("nobs or ndim is negative");
+  }
   if (tick == 0)
   {
     status.run(ndim, embedding.data(), 0);
 
-    auto na = numo::SFloat({(uint)nobs, (uint)ndim});
+    // it is safe to cast to unsigned int
+    auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
     std::copy(embedding.begin(), embedding.end(), na.write_ptr());
 
     return na;
@@ -201,7 +204,8 @@ Object umappp_run(
 
       status.run(ndim, embedding.data(), epoch_limit);
 
-      auto na = numo::SFloat({(uint)nobs, (uint)ndim});
+      //it is safe to cast to unsigned int
+      auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
       std::copy(embedding.begin(), embedding.end(), na.write_ptr());
 
       rb_ary_push(ret, na.value());
