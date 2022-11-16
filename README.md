@@ -63,7 +63,7 @@ Available parameters and their default values
 ```
 git clone https://github.com/kojix2/ruby-umappp
 cd umap
-b ndle dle exec rake compile
+bundle exec rake compile
 bundle exec rake test
 ```
 
