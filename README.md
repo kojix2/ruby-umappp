@@ -67,6 +67,15 @@ bundle exec rake compile
 bundle exec rake test
 ```
 
+Update LTLA/umappp
+
+Requires cmake to run
+
+```
+cd script
+./vendor.sh
+```
+
 ### Ruby dependencies
 
 * [rice](https://github.com/jasonroelofs/rice) - Ruby Interface for C++ Extensions
