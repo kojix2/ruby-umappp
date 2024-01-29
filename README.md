@@ -49,12 +49,12 @@ Available parameters and their default values
 | a                    | 0                                  |
 | b                    | 0                                  |
 | repulsion_strength   | 1                                  |
+| initialize           | Umappp::InitMethod::SPECTRAL       |
 | num_epochs           | 500                                |
 | learning_rate        | 1                                  |
 | negative_sample_rate | 5                                  |
 | num_neighbors        | 15                                 |
 | seed                 | 1234567890                         |
-| batch                | false                              |
 | num_threads          | 1 (OpenMP required)                |
 
 ## Development
