@@ -9,10 +9,6 @@
 typedef float Float;
 typedef typename umappp::Umap<Float> Umap;
 
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 using namespace Rice;
 
 // This function is used to view default parameters from Ruby.
@@ -28,13 +24,14 @@ Hash umappp_default_parameters(Object self)
   d[Symbol("a")] = Umap::Defaults::a;
   d[Symbol("b")] = Umap::Defaults::b;
   d[Symbol("repulsion_strength")] = Umap::Defaults::repulsion_strength;
+  d[Symbol("initialize")] = Umap::Defaults::initialize;
   d[Symbol("num_epochs")] = Umap::Defaults::num_epochs;
   d[Symbol("learning_rate")] = Umap::Defaults::learning_rate;
   d[Symbol("negative_sample_rate")] = Umap::Defaults::negative_sample_rate;
   d[Symbol("num_neighbors")] = Umap::Defaults::num_neighbors;
   d[Symbol("seed")] = Umap::Defaults::seed;
-  d[Symbol("batch")] = Umap::Defaults::batch;
   d[Symbol("num_threads")] = Umap::Defaults::num_threads;
+  d[Symbol("parallel_optimization")] = Umap::Defaults::parallel_optimization;
 
   return d;
 }
@@ -46,8 +43,7 @@ Object umappp_run(
     Hash params,
     numo::SFloat data,
     int ndim,
-    int nn_method,
-    int tick = 0)
+    int nn_method)
 {
   // Parameters are taken from a Ruby Hash object.
   // If there is key, set the value.
@@ -110,6 +106,13 @@ Object umappp_run(
     umap_ptr->set_repulsion_strength(repulsion_strength);
   }
 
+  umappp::InitMethod initialize = Umap::Defaults::initialize;
+  if (RTEST(params.call("has_key?", Symbol("initialize"))))
+  {
+    initialize = params.get<umappp::InitMethod>(Symbol("initialize"));
+    umap_ptr->set_initialize(initialize);
+  }
+
   int num_epochs = Umap::Defaults::num_epochs;
   if (RTEST(params.call("has_key?", Symbol("num_epochs"))))
   {
@@ -145,18 +148,18 @@ Object umappp_run(
     umap_ptr->set_seed(seed);
   }
 
-  bool batch = Umap::Defaults::batch;
-  if (RTEST(params.call("has_key?", Symbol("batch"))))
-  {
-    batch = params.get<bool>(Symbol("batch"));
-    umap_ptr->set_batch(batch);
-  }
-
   int num_threads = Umap::Defaults::num_threads;
   if (RTEST(params.call("has_key?", Symbol("num_threads"))))
   {
     num_threads = params.get<int>(Symbol("num_threads"));
     umap_ptr->set_num_threads(num_threads);
+  }
+
+  bool parallel_optimization = Umap::Defaults::parallel_optimization;
+  if (RTEST(params.call("has_key?", Symbol("parallel_optimization"))))
+  {
+    parallel_optimization = params.get<bool>(Symbol("parallel_optimization"));
+    umap_ptr->set_parallel_optimization(parallel_optimization);
   }
 
   // initialize_from_matrix
@@ -184,35 +187,15 @@ Object umappp_run(
   {
     throw std::runtime_error("nobs or ndim is negative");
   }
-  if (tick == 0)
-  {
-    status.run(ndim, embedding.data(), 0);
+  int epoch_limit = 0;
+  // tick is not implemented yet
+  status.run(epoch_limit);
 
-    // it is safe to cast to unsigned int
-    auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
-    std::copy(embedding.begin(), embedding.end(), na.write_ptr());
+  // it is safe to cast to unsigned int
+  auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
+  std::copy(embedding.begin(), embedding.end(), na.write_ptr());
 
-    return na;
-  }
-  else
-  {
-    VALUE ret = rb_ary_new();
-
-    while (status.epoch() < status.num_epochs())
-    {
-      int epoch_limit = status.epoch() + tick;
-
-      status.run(ndim, embedding.data(), epoch_limit);
-
-      //it is safe to cast to unsigned int
-      auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
-      std::copy(embedding.begin(), embedding.end(), na.write_ptr());
-
-      rb_ary_push(ret, na.value());
-    }
-
-    return ret;
-  }
+  return na;
 }
 
 extern "C" void Init_umappp()
@@ -221,4 +204,10 @@ extern "C" void Init_umappp()
       define_module("Umappp")
           .define_singleton_method("umappp_run", &umappp_run)
           .define_singleton_method("umappp_default_parameters", &umappp_default_parameters);
+  Enum<umappp::InitMethod> init_method =
+      define_enum<umappp::InitMethod>("InitMethod", rb_mUmappp)
+          .define_value("SPECTRAL", umappp::InitMethod::SPECTRAL)
+          .define_value("SPECTRAL_ONLY", umappp::InitMethod::SPECTRAL_ONLY)
+          .define_value("RANDOM", umappp::InitMethod::RANDOM)
+          .define_value("NONE", umappp::InitMethod::NONE);
 }

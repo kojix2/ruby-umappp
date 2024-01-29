@@ -41,7 +41,6 @@ Available parameters and their default values
 |----------------------|------------------------------------|
 | method               | :annoy (another option is :vptree) |
 | ndim                 | 2                                  |
-| tick                 | 0 (Not yet implemented)            |
 | local_connectivity   | 1.0                                |
 | bandwidth            | 1                                  |
 | mix_ratio            | 1                                  |

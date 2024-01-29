@@ -12,7 +12,7 @@ module Umappp
 
   # View the default parameters defined within the Umappp C++ library structure.
   def self.default_parameters
-    # {method: :annoy, ndim: 2, tick: 0}.merge
+    # {method: :annoy, ndim: 2}.merge
     umappp_default_parameters
   end
 
@@ -30,16 +30,17 @@ module Umappp
   # @param a [Numeric]
   # @param b [Numeric]
   # @param repulsion_strength [Numeric]
+  # @param initilaize [Umappp::InitMethod]
   # @param num_epochs [Integer]
   # @param learning_rate [Numeric]
   # @param negative_sample_rate [Numeric]
   # @param num_neighbors [Integer]
   # @param seed [Integer]
-  # @param batch [Boolean]
   # @param num_threads [Integer]
+  # @param parallel_optimization [Boolean]
   # @return [Numo::SFloat] the final embedding
 
-  def self.run(embedding, method: :annoy, ndim: 2, tick: 0, **params)
+  def self.run(embedding, method: :annoy, ndim: 2, **params)
     unless (u = (params.keys - default_parameters.keys)).empty?
       raise ArgumentError, "[umappp.rb] unknown option : #{u.inspect}"
     end
@@ -50,6 +51,6 @@ module Umappp
     embedding2 = Numo::SFloat.cast(embedding)
     raise ArgumentError, "embedding must be a 2D array" if embedding2.ndim <= 1
 
-    umappp_run(params, embedding2, ndim, nnmethod, tick)
+    umappp_run(params, embedding2, ndim, nnmethod)
   end
 end
