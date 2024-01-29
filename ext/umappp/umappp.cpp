@@ -47,8 +47,12 @@ Object umappp_run(
 {
   // Parameters are taken from a Ruby Hash object.
   // If there is key, set the value.
+  if (ndim < 1)
+  {
+    throw std::runtime_error("ndim is less than 1");
+  }
 
-  auto umap_ptr = new Umap;
+  std::unique_ptr<Umap> umap_ptr(new Umap);
 
   double local_connectivity = Umap::Defaults::local_connectivity;
   if (RTEST(params.call("has_key?", Symbol("local_connectivity"))))
@@ -169,6 +173,10 @@ Object umappp_run(
 
   int nd = shape[1];
   int nobs = shape[0];
+  if (nobs < 0)
+  {
+    throw std::runtime_error("nobs is negative");
+  }
 
   std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
   if (nn_method == 0)
@@ -183,10 +191,7 @@ Object umappp_run(
   std::vector<Float> embedding(ndim * nobs);
 
   auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
-  if (nobs < 0 || ndim < 0)
-  {
-    throw std::runtime_error("nobs or ndim is negative");
-  }
+
   int epoch_limit = 0;
   // tick is not implemented yet
   status.run(epoch_limit);
