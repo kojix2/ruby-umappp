@@ -157,14 +157,14 @@ public:
         static constexpr uint64_t seed = 1234567890;
 
         /**
-         * See `set_batch()`.
-         */
-        static constexpr bool batch = false;
-
-        /**
          * See `set_num_threads()`.
          */
         static constexpr int num_threads = 1;
+
+        /**
+         * See `set_parallel_optimization()`.
+         */
+        static constexpr int parallel_optimization = false;
     };
 
 private:
@@ -184,8 +184,8 @@ private:
         Float b = Defaults::b;
         Float repulsion_strength = Defaults::repulsion_strength;
         Float learning_rate = Defaults::learning_rate;
-        bool batch = Defaults::batch;
         int nthreads = Defaults::num_threads;
+        bool parallel_optimization = Defaults::parallel_optimization;
     };
 
     RuntimeParameters rparams;
@@ -360,28 +360,12 @@ public:
     }
 
     /**
-     * @param b Whether to optimize in batch mode. 
-     * Batch mode is required for effective parallelization via OpenMP but may reduce the stability of the gradient descent. 
-     *
-     * Batch mode involves computing forces for all observations and applying them simultaneously.
-     * This is in contrast to the default where the location of observation is updated before the forces are computed for the next observation.
-     * As each observation's forces are computed independently, batch mode is more amenable to parallelization;
-     * however, this comes at the cost of stability as the force calculations for later observations are not aware of updates to the positions of earlier observations.
-     *
-     * @return A reference to this `Umap` object.
-     */
-    Umap& set_batch(bool b = Defaults::batch) {
-        rparams.batch = b;
-        return *this;
-    }
-
-    /**
      * @param n Number of threads to use.
      *
      * @return A reference to this `Umap` object.
      *
      * This setting affects nearest neighbor detection (if an existing list of neighbors is not supplied in `initialize()` or `run()`) and spectral initialization.
-     * If `set_batch()` is `true`, multiple threads will also be used during layout optimization.
+     * If `set_parallel_optimization()` is true, it will also affect the layout optimization, i.e., the gradient descent iterations.
      *
      * The `UMAPPP_CUSTOM_PARALLEL` macro can be set to a function that specifies a custom parallelization scheme.
      * This function should be a template that accept three arguments:
@@ -404,6 +388,26 @@ public:
         return *this;
     }
 
+    /**
+     * @param p Whether to enable parallel optimization.
+     * If set to `true`, this will use the number of threads specified in `set_num_threads()` for the layout optimization step.
+     *
+     * @return A reference to this `Umap` object.
+     *
+     * By default, this is set to `false` as the increase in the number of threads is usually not cost-effective for layout optimization.
+     * Specifically, while CPU usage scales with the number of threads, the time spent does not decrease by the same factor.
+     * We also expect that the number of available CPUs is at least equal to the requested number of threads, otherwise contention will greatly degrade performance.
+     * Nonetheless, users can enable parallel optimization if cost is no issue - usually a higher number of threads (above 4) is required to see a reduction in time.
+     *
+     * If the `UMAPPP_NO_PARALLEL_OPTIMIZATION` macro is defined, **umappp** will not be compiled with support for parallel optimization.
+     * This may be desirable in environments that have no support for threading or atomics, or to reduce the binary size if parallelization is not of interest.
+     * In such cases, enabling parallel optimization and calling `Status::run()` will raise an error.
+     */
+    Umap& set_parallel_optimization(bool p = Defaults::parallel_optimization) {
+        rparams.parallel_optimization = p;
+        return *this;
+    }
+
 public:
     /**
      * @brief Status of the UMAP optimization iterations.
@@ -412,14 +416,50 @@ public:
         /**
          * @cond
          */
-        Status(EpochData<Float> e, uint64_t seed, RuntimeParameters p) : epochs(std::move(e)), engine(seed), rparams(std::move(p)) {}
+        Status(EpochData<Float> e, uint64_t seed, RuntimeParameters p, int n, Float* embed) : 
+            epochs(std::move(e)), engine(seed), rparams(std::move(p)), ndim_(n), embedding_(embed) {}
 
         EpochData<Float> epochs;
         std::mt19937_64 engine;
         RuntimeParameters rparams;
+        int ndim_;
+        Float* embedding_;
         /**
          * @endcond
          */
+
+        /**
+         * @return Number of dimensions of the embedding.
+         */
+        int ndim() const {
+            return ndim_;
+        }
+
+        /**
+         * @return Pointer to a two-dimensional column-major array where rows are dimensions (`ndim`) and columns are observations.
+         * This is updated by `initialize()` to store the final embedding.
+         */
+        const Float* embedding() const {
+            return embedding_;
+        }
+
+        /**
+         * @param ptr Pointer to a two-dimensional array as described in `embedding()`.
+         * @param copy Whether the contents of the previous array should be copied into `ptr`.
+         *
+         * By default, the `Status` objects returned by `Umap` methods will operate on embeddings in an array specified at `Status` construction time.
+         * This method will change the embedding array for an existing `Status` object, which can be helpful in some situations, 
+         * e.g., to clone a `Status` object and to store its embeddings in a different array than the object.
+         *
+         * Note that the contents of the new array in `ptr` should be the same as the array that it replaces, as `run()` will continue the iteration from the coordinates inside the array.
+         * If a copy was already performed from the old array to the new array, the caller may set `copy = false` to avoid an extra copy.
+         */
+        void set_embedding(Float* ptr, bool copy = true) {
+            if (copy) {
+                std::copy(embedding_, embedding_ + static_cast<size_t>(ndim()) * nobs(), ptr);
+            }
+            embedding_ = ptr;
+        }
 
         /**
          * @return Current epoch.
@@ -444,21 +484,22 @@ public:
         }
 
         /** 
-         * @param ndim Number of dimensions of the embedding.
-         * @param[in, out] embedding Two-dimensional array where rows are dimensions (`ndim`) and columns are observations.
-         * This contains the initial coordinates and is updated to store the final embedding.
+         * The status of the algorithm and the coordinates in `embedding()` are updated to the specified number of epochs. 
+         *
          * @param epoch_limit Number of epochs to run to.
          * The actual number of epochs performed is equal to the difference between `epoch_limit` and the current number of epochs in `epoch()`.
-         * `epoch_limit` should be not less than `epoch()` and no greater than the maximum number of epochs specified in `Umap::set_num_epochs()`.
+         * `epoch_limit` should be not less than `epoch()` and be no greater than the maximum number of epochs specified in `Umap::set_num_epochs()`.
          * If zero, defaults to the maximum number of epochs. 
-         *
-         * @return The status of the algorithm and the coordinates in `embedding` are updated to the specified number of epochs. 
          */
-        void run(int ndim, Float* embedding, int epoch_limit = 0) {
-            if (!rparams.batch) {
+        void run(int epoch_limit = 0) {
+            if (epoch_limit == 0) {
+                epoch_limit = epochs.total_epochs;
+            }
+
+            if (rparams.nthreads == 1 || !rparams.parallel_optimization) {
                 optimize_layout(
-                    ndim,
-                    embedding,
+                    ndim_,
+                    embedding_,
                     epochs,
                     rparams.a,
                     rparams.b,
@@ -468,16 +509,15 @@ public:
                     epoch_limit
                 );
             } else {
-                optimize_layout_batched(
-                    ndim,
-                    embedding,
+                optimize_layout_parallel(
+                    ndim_,
+                    embedding_,
                     epochs,
                     rparams.a,
                     rparams.b,
                     rparams.repulsion_strength,
                     rparams.learning_rate,
-                    [&]() -> auto { return engine(); },
-                    [](decltype(engine()) s) -> auto { return std::mt19937_64(s); },
+                    engine,
                     epoch_limit,
                     rparams.nthreads
                 );
@@ -524,7 +564,9 @@ public:
         return Status(
             similarities_to_epochs(x, num_epochs_to_do, negative_sample_rate),
             seed,
-            std::move(pcopy)
+            std::move(pcopy),
+            ndim,
+            embedding
         );
     }
 
@@ -587,7 +629,7 @@ public:
      */
     template<typename Input = Float>
     Status initialize(int ndim_in, size_t nobs, const Input* input, int ndim_out, Float* embedding) { 
-        knncolle::VpTreeEuclidean<> searcher(ndim_in, nobs, input); 
+        knncolle::VpTreeEuclidean<int, Input, Input, Input> searcher(ndim_in, nobs, input); 
         return initialize(&searcher, ndim_out, embedding);
     }
 #endif
@@ -609,7 +651,7 @@ public:
     template<class Algorithm> 
     Status run(const Algorithm* searcher, int ndim, Float* embedding, int epoch_limit = 0) {
         auto status = initialize(searcher, ndim, embedding);
-        status.run(ndim, embedding, epoch_limit);
+        status.run(epoch_limit);
         return status;
     }
 
@@ -627,7 +669,7 @@ public:
      */
     Status run(NeighborList<Float> x, int ndim, Float* embedding, int epoch_limit = 0) const {
         auto status = initialize(std::move(x), ndim, embedding);
-        status.run(ndim, embedding, epoch_limit);
+        status.run(epoch_limit);
         return status;
     }
 
@@ -651,7 +693,7 @@ public:
     template<typename Input = Float>
     Status run(int ndim_in, size_t nobs, const Input* input, int ndim_out, Float* embedding, int epoch_limit = 0) {
         auto status = initialize(ndim_in, nobs, input, ndim_out, embedding);
-        status.run(ndim_out, embedding, epoch_limit);
+        status.run(epoch_limit);
         return status;
     }
 #endif
