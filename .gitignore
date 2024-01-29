@@ -13,6 +13,7 @@
 *.a
 *.lock
 mkmf.log
+.DS_Store
 
 /examples/data/*.png
 /examples/data/*.gif
