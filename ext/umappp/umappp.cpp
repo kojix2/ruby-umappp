@@ -210,7 +210,7 @@ extern "C" void Init_umappp()
           .define_singleton_method("umappp_run", &umappp_run)
           .define_singleton_method("umappp_default_parameters", &umappp_default_parameters);
   Enum<umappp::InitMethod> init_method =
-      define_enum<umappp::InitMethod>("InitMethod", rb_mUmappp)
+      define_enum<umappp::InitMethod>("InitMethod")
           .define_value("SPECTRAL", umappp::InitMethod::SPECTRAL)
           .define_value("SPECTRAL_ONLY", umappp::InitMethod::SPECTRAL_ONLY)
           .define_value("RANDOM", umappp::InitMethod::RANDOM)
