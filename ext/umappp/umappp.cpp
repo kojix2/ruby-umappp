@@ -1,8 +1,12 @@
-// Uniform Manifold Approximation and Projection for Ruby
-// https://github.com/kojix2/ruby-umappp
+/*
+ * Uniform Manifold Approximation and Projection for Ruby
+ * https://github.com/kojix2/ruby-umappp
+ */
 
 #include <rice/rice.hpp>
 #include <rice/stl.hpp>
+#include <exception>
+#include <string>
 #include "numo.hpp"
 #include "Umap.hpp"
 
@@ -11,8 +15,45 @@ typedef typename umappp::Umap<Float> Umap;
 
 using namespace Rice;
 
-// This function is used to view default parameters from Ruby.
+extern "C" {
+  void *rb_thread_call_without_gvl(
+    void *(*func)(void *), void *data,
+    void (*ubf)(void *), void *ubf_data
+  );
+}
 
+// Data structure for running UMAP calculation without GVL.
+struct UmapRunData {
+  Umap* umap_ptr;
+  knncolle::Base<int, Float>* knncolle_ptr;
+  int ndim;
+  std::vector<Float>* embedding;
+  std::string exception_message;
+  bool exception_thrown = false;
+};
+
+// Callback for UMAP calculation (executed without GVL).
+static void* umap_run_without_gvl(void* data) {
+  UmapRunData* run_data = static_cast<UmapRunData*>(data);
+  try {
+    auto status = run_data->umap_ptr->initialize(
+      run_data->knncolle_ptr,
+      run_data->ndim,
+      run_data->embedding->data()
+    );
+    int epoch_limit = 0;
+    status.run(epoch_limit);
+  } catch (const std::exception& e) {
+    run_data->exception_message = e.what();
+    run_data->exception_thrown = true;
+  } catch (...) {
+    run_data->exception_message = "Unknown exception occurred in UMAP calculation.";
+    run_data->exception_thrown = true;
+  }
+  return nullptr;
+}
+
+// Returns default parameters from the Umappp C++ library.
 Hash umappp_default_parameters(Object self)
 {
   Hash d;
@@ -36,8 +77,7 @@ Hash umappp_default_parameters(Object self)
   return d;
 }
 
-// Function to perform umap.
-
+// Main function to perform UMAP.
 Object umappp_run(
     Object self,
     Hash params,
@@ -45,8 +85,6 @@ Object umappp_run(
     int ndim,
     int nn_method)
 {
-  // Parameters are taken from a Ruby Hash object.
-  // If there is key, set the value.
   if (ndim < 1)
   {
     throw std::runtime_error("ndim is less than 1");
@@ -166,8 +204,6 @@ Object umappp_run(
     umap_ptr->set_parallel_optimization(parallel_optimization);
   }
 
-  // initialize_from_matrix
-
   const float *y = data.read_ptr();
   size_t *shape = data.shape();
 
@@ -190,13 +226,25 @@ Object umappp_run(
 
   std::vector<Float> embedding(ndim * nobs);
 
-  auto status = umap_ptr->initialize(knncolle_ptr.get(), ndim, embedding.data());
+  // Run UMAP calculation without GVL.
+  UmapRunData run_data = {
+    umap_ptr.get(),
+    knncolle_ptr.get(),
+    ndim,
+    &embedding
+  };
 
-  int epoch_limit = 0;
-  // tick is not implemented yet
-  status.run(epoch_limit);
+  rb_thread_call_without_gvl(
+    umap_run_without_gvl,
+    &run_data,
+    NULL,
+    NULL
+  );
 
-  // it is safe to cast to unsigned int
+  if (run_data.exception_thrown) {
+    throw std::runtime_error(run_data.exception_message);
+  }
+
   auto na = numo::SFloat({(unsigned int)nobs, (unsigned int)ndim});
   std::copy(embedding.begin(), embedding.end(), na.write_ptr());
 
