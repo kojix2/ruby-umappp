@@ -7,12 +7,12 @@
 
 ![image](https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png)
 
-> Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction. 
+> Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction.
 > ([original UMAP documentation](https://umap-learn.readthedocs.io/en/latest/index.html))
 
-* Ruby Umappp is a wrapper library for [C++ Umappp library](https://github.com/LTLA/umappp) created by Aaron Lun 
-* Compatible with [yaumap](https://github.com/LTLA/yaumap)
-* Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
+- Ruby Umappp is a wrapper library for [C++ Umappp library](https://github.com/LTLA/umappp) created by Aaron Lun
+- Compatible with [yaumap](https://github.com/LTLA/yaumap)
+- Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
 
 ## Installation
 
@@ -20,7 +20,7 @@
 gem install umappp
 ```
 
-* [OpenMP](https://www.openmp.org) is required for multithreading.
+- [OpenMP](https://www.openmp.org) is required for multithreading.
 
 ## Usage
 
@@ -38,7 +38,7 @@ r = Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
 Available parameters and their default values
 
 | parameters           | default value                      |
-|----------------------|------------------------------------|
+| -------------------- | ---------------------------------- |
 | method               | :annoy (another option is :vptree) |
 | ndim                 | 2                                  |
 | local_connectivity   | 1.0                                |
@@ -77,13 +77,12 @@ cd script
 
 ### Ruby dependencies
 
-* [rice](https://github.com/jasonroelofs/rice) - Ruby Interface for C++ Extensions
-* [numo.hpp](https://github.com/ankane/numo.hpp) - C++ header for Numo and Rice
+- [rice](https://github.com/jasonroelofs/rice) - Ruby Interface for C++ Extensions
+- [numo.hpp](https://github.com/ankane/numo.hpp) - C++ header for Numo and Rice
 
 ### Umappp dependencies
 
 This Gem is a wrapper for [Umappp](https://github.com/LTLA/umappp). We store and distribute Umappp and other dependent C++ code in the Vendor directory. Umappp is compiled when the Gem is installed. Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically. This actually runs cmake and moves the required directories to the vendor directory.
-
 
 ```mermaid
 graph TD;
@@ -113,7 +112,6 @@ Welcome!
 
 ## License
 
-* As for the code I wrote, it is  BSD 2-Clause (or MIT).
-* The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.
-* For other codes, please check on your own. (There are many dependencies)
- 
+- As for the code I wrote, it is BSD 2-Clause (or MIT).
+- The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.
+- For other codes, please check on your own. (There are many dependencies)
