@@ -60,11 +60,11 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-Umappp+-+UMAP+for+Ruby">Umappp - UMAP for Ruby</h1>
 
-<p><a href="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml"><img src="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml/badge.svg"></a> <a href="https://badge.fury.io/rb/umappp"><img src="https://badge.fury.io/rb/umappp.svg"></a></p>
+<p><a href="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml"><img src="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml/badge.svg" alt="test"></a> <a href="https://badge.fury.io/rb/umappp"><img src="https://badge.fury.io/rb/umappp.svg" alt="Gem Version"></a></p>
 
 <p>🗺️ <a href="https://github.com/LTLA/umappp">Umappp</a> - Uniform Manifold Approximation and Projection - for Ruby</p>
 
-<p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png"></p>
+<p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png" alt="image"></p>
 
 <blockquote>
 <p>Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction. (<a href="https://umap-learn.readthedocs.io/en/latest/index.html">original UMAP documentation</a>)</p>
@@ -99,7 +99,84 @@
 
 <p>Available parameters and their default values</p>
 
-<p>| parameters | default value | | ——————– | ———————————- | | method | :annoy (another option is :vptree) | | ndim | 2 | | local_connectivity | 1.0 | | bandwidth | 1 | | mix_ratio | 1 | | spread | 1 | | min_dist | 0.01 | | a | 0 | | b | 0 | | repulsion_strength | 1 | | initialize | Umappp::InitMethod::SPECTRAL | | num_epochs | 500 | | learning_rate | 1 | | negative_sample_rate | 5 | | num_neighbors | 15 | | seed | 1234567890 | | num_threads | 1 (OpenMP required) |</p>
+<table role="table">
+<thead>
+<tr>
+<th>parameters</th>
+<th>default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>method</td>
+<td>:annoy (another option is :vptree)</td>
+</tr>
+<tr>
+<td>ndim</td>
+<td>2</td>
+</tr>
+<tr>
+<td>local_connectivity</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>bandwidth</td>
+<td>1</td>
+</tr>
+<tr>
+<td>mix_ratio</td>
+<td>1</td>
+</tr>
+<tr>
+<td>spread</td>
+<td>1</td>
+</tr>
+<tr>
+<td>min_dist</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>a</td>
+<td>0</td>
+</tr>
+<tr>
+<td>b</td>
+<td>0</td>
+</tr>
+<tr>
+<td>repulsion_strength</td>
+<td>1</td>
+</tr>
+<tr>
+<td>initialize</td>
+<td>Umappp::InitMethod::SPECTRAL</td>
+</tr>
+<tr>
+<td>num_epochs</td>
+<td>500</td>
+</tr>
+<tr>
+<td>learning_rate</td>
+<td>1</td>
+</tr>
+<tr>
+<td>negative_sample_rate</td>
+<td>5</td>
+</tr>
+<tr>
+<td>num_neighbors</td>
+<td>15</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>1234567890</td>
+</tr>
+<tr>
+<td>num_threads</td>
+<td>1 (OpenMP required)</td>
+</tr>
+</tbody>
+</table>
 
 <h2 id="label-Development">Development</h2>
 
@@ -165,9 +242,9 @@ If so, please feel free to contact us @kojix2.
 </div></div>
 
       <div id="footer">
-  Generated on Mon Aug 11 14:02:15 2025 by
+  Generated on Thu Oct  9 13:01:01 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.1.7).
+  0.9.37 (ruby-3.4.7).
 </div>
 
     </div>
