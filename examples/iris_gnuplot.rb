@@ -22,4 +22,5 @@ Dir.chdir(__dir__) do
     set output: "data/iris_gnuplot.png"
     plot(*plots)
   end
+  puts "Saved to data/iris_gnuplot.png"
 end
