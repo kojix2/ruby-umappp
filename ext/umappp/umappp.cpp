@@ -15,13 +15,6 @@ typedef typename umappp::Umap<Float> Umap;
 
 using namespace Rice;
 
-extern "C"
-{
-  void *rb_thread_call_without_gvl(
-      void *(*func)(void *), void *data,
-      void (*ubf)(void *), void *ubf_data);
-}
-
 // Data structure for running UMAP calculation without GVL.
 struct UmapRunData
 {
