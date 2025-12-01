@@ -15,38 +15,44 @@ typedef typename umappp::Umap<Float> Umap;
 
 using namespace Rice;
 
-extern "C" {
+extern "C"
+{
   void *rb_thread_call_without_gvl(
-    void *(*func)(void *), void *data,
-    void (*ubf)(void *), void *ubf_data
-  );
+      void *(*func)(void *), void *data,
+      void (*ubf)(void *), void *ubf_data);
 }
 
 // Data structure for running UMAP calculation without GVL.
-struct UmapRunData {
-  Umap* umap_ptr;
-  knncolle::Base<int, Float>* knncolle_ptr;
+struct UmapRunData
+{
+  Umap *umap_ptr;
+  knncolle::Base<int, Float> *knncolle_ptr;
   int ndim;
-  std::vector<Float>* embedding;
+  std::vector<Float> *embedding;
   std::string exception_message;
   bool exception_thrown = false;
 };
 
 // Callback for UMAP calculation (executed without GVL).
-static void* umap_run_without_gvl(void* data) {
-  UmapRunData* run_data = static_cast<UmapRunData*>(data);
-  try {
+static void *umap_run_without_gvl(void *data)
+{
+  UmapRunData *run_data = static_cast<UmapRunData *>(data);
+  try
+  {
     auto status = run_data->umap_ptr->initialize(
-      run_data->knncolle_ptr,
-      run_data->ndim,
-      run_data->embedding->data()
-    );
+        run_data->knncolle_ptr,
+        run_data->ndim,
+        run_data->embedding->data());
     int epoch_limit = 0;
     status.run(epoch_limit);
-  } catch (const std::exception& e) {
+  }
+  catch (const std::exception &e)
+  {
     run_data->exception_message = e.what();
     run_data->exception_thrown = true;
-  } catch (...) {
+  }
+  catch (...)
+  {
     run_data->exception_message = "Unknown exception occurred in UMAP calculation.";
     run_data->exception_thrown = true;
   }
@@ -232,20 +238,19 @@ Object umappp_run(
 
   // Run UMAP calculation without GVL.
   UmapRunData run_data = {
-    umap_ptr.get(),
-    knncolle_ptr.get(),
-    ndim,
-    &embedding
-  };
+      umap_ptr.get(),
+      knncolle_ptr.get(),
+      ndim,
+      &embedding};
 
   rb_thread_call_without_gvl(
-    umap_run_without_gvl,
-    &run_data,
-    NULL,
-    NULL
-  );
+      umap_run_without_gvl,
+      &run_data,
+      NULL,
+      NULL);
 
-  if (run_data.exception_thrown) {
+  if (run_data.exception_thrown)
+  {
     throw std::runtime_error(run_data.exception_message);
   }
 
