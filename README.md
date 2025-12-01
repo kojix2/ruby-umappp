@@ -39,6 +39,10 @@ embedding = Umappp.run(data, num_threads: 8, a: 1.8956, b: 0.8006)
 
 Available parameters and their default values
 
+(The defaults are obtained from the underlying C++ Umappp
+library via `Umappp.default_parameters` and may change when
+the bundled Umappp version is updated.)
+
 | parameters           | default value                      |
 | -------------------- | ---------------------------------- |
 | method               | :annoy (another option is :vptree) |
