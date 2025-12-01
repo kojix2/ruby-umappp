@@ -30,7 +30,7 @@ module Umappp
   # @param a [Numeric]
   # @param b [Numeric]
   # @param repulsion_strength [Numeric]
-  # @param initilaize [Umappp::InitMethod]
+  # @param initialize [Umappp::InitMethod]
   # @param num_epochs [Integer]
   # @param learning_rate [Numeric]
   # @param negative_sample_rate [Numeric]
