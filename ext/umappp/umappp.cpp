@@ -215,9 +215,13 @@ Object umappp_run(
 
   int nd = shape[1];
   int nobs = shape[0];
-  if (nobs < 0)
+  if (nobs <= 0)
   {
-    throw std::runtime_error("nobs is negative");
+    throw std::runtime_error("number of observations must be positive");
+  }
+  if (nd <= 0)
+  {
+    throw std::runtime_error("number of dimensions must be positive");
   }
 
   std::unique_ptr<knncolle::Base<int, Float>> knncolle_ptr;
