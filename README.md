@@ -71,7 +71,7 @@ which are mapped to `Umappp::InitMethod` values internally.
 
 ```
 git clone https://github.com/kojix2/ruby-umappp
-cd umap
+cd ruby-umappp
 bundle exec rake compile
 bundle exec rake test
 ```
