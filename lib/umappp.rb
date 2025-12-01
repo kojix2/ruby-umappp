@@ -50,6 +50,7 @@ module Umappp
 
     embedding2 = Numo::SFloat.cast(embedding)
     raise ArgumentError, "embedding must be a 2D array" if embedding2.ndim <= 1
+    raise ArgumentError, "embedding must not be empty" if embedding2.size.zero?
 
     umappp_run(params, embedding2, ndim, nnmethod)
   end

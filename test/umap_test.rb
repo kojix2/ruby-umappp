@@ -27,6 +27,13 @@ class UmapppTest < Test::Unit::TestCase
     end
   end
 
+  test "empty embedding" do
+    embedding = Numo::SFloat.new(0, 10)
+    assert_raise(ArgumentError) do
+      Umappp.run(embedding)
+    end
+  end
+
   test "unknown option" do
     embedding = Numo::SFloat.new(10, 10).rand
     assert_raise(ArgumentError) do
