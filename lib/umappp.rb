@@ -19,7 +19,7 @@ module Umappp
   # Runs the Uniform Manifold Approximation and Projection (UMAP) dimensional
   # reduction technique.
   # @param embedding [Array, Numo::SFloat]
-  # @param method [Symbol]
+  # @param method [Symbol, String]
   # @param ndim [Integer]
   # @param tick [Integer]
   # @param local_connectivity [Numeric]
@@ -30,7 +30,7 @@ module Umappp
   # @param a [Numeric]
   # @param b [Numeric]
   # @param repulsion_strength [Numeric]
-  # @param initialize [Umappp::InitMethod]
+  # @param initialize [Symbol, Umappp::InitMethod]
   # @param num_epochs [Integer]
   # @param learning_rate [Numeric]
   # @param negative_sample_rate [Numeric]
@@ -47,6 +47,31 @@ module Umappp
 
     nnmethod = %i[annoy vptree].index(method.to_sym)
     raise ArgumentError, "method must be :annoy or :vptree" if nnmethod.nil?
+
+    # Allow initialize: to be specified as a Symbol or String and
+    # convert it to the corresponding Umappp::InitMethod enum.
+    if params.key?(:initialize)
+      init_val = params[:initialize]
+
+      if init_val.is_a?(Symbol) || init_val.is_a?(String)
+        init_sym = init_val.to_sym
+        mapping = {
+          spectral: InitMethod::SPECTRAL,
+          spectral_only: InitMethod::SPECTRAL_ONLY,
+          random: InitMethod::RANDOM,
+          none: InitMethod::NONE
+        }
+
+        mapped = mapping[init_sym]
+        unless mapped
+          raise ArgumentError,
+                "initialize must be one of :spectral, :spectral_only, :random, :none or a Umappp::InitMethod"
+        end
+
+        params[:initialize] = mapped
+      end
+      # If it's already a Umappp::InitMethod, we just pass it through.
+    end
 
     embedding2 = Numo::SFloat.cast(embedding)
     raise ArgumentError, "embedding must be a 2D array" if embedding2.ndim <= 1

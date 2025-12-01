@@ -63,6 +63,10 @@ the bundled Umappp version is updated.)
 | seed                 | 1234567890                         |
 | num_threads          | 1 (OpenMP required)                |
 
+For the `initialize` parameter, this gem currently accepts the
+symbols `:spectral`, `:spectral_only`, `:random` and `:none`,
+which are mapped to `Umappp::InitMethod` values internally.
+
 ## Development
 
 ```
