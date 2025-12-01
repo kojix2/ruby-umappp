@@ -223,6 +223,10 @@ Object umappp_run(
   {
     knncolle_ptr.reset(new knncolle::KmknnEuclidean<int, Float>(nd, nobs, y));
   }
+  else
+  {
+    throw std::runtime_error("unknown nearest neighbor method");
+  }
 
   std::vector<Float> embedding(ndim * nobs);
 
