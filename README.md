@@ -27,12 +27,14 @@ gem install umappp
 This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. [Numo](https://github.com/ruby-numo/numo-narray) is a library for performing N-dimensional array computing like NumPy. The argument is converted to `Numo::SFloat`. SFloat is a single precision floating point number type of Numo::NArray.
 
 ```ruby
-# The embedding is two-dimensional Ruby array or Numo array
-# Returns Numo::SFloat
-r = Umappp.run(embedding)
+# Original high-dimensional data as two-dimensional Ruby array or Numo array
+data = Numo::SFloat.new(10, 784).rand # e.g. 10 images with 784 features
+
+# Returns low-dimensional embedding as Numo::SFloat
+embedding = Umappp.run(data)
 
 # Run with parameters
-r = Umappp.run(pixels, num_threads: 8, a: 1.8956, b: 0.8006)
+embedding = Umappp.run(data, num_threads: 8, a: 1.8956, b: 0.8006)
 ```
 
 Available parameters and their default values
