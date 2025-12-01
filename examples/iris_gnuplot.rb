@@ -13,7 +13,7 @@ x = r[true, 0]
 y = r[true, 1]
 
 plots = (1..3).map do |i|
-  [x[l.eq(i)], y[l.eq(i)], { title: "#{i}", with: "points", pt: 7, pointsize: 1 }]
+  [x[l.eq(i)], y[l.eq(i)], { title: i.to_s, with: "points", pt: 7, pointsize: 1 }]
 end
 
 Dir.chdir(__dir__) do

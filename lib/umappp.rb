@@ -78,7 +78,7 @@ module Umappp
       raise ArgumentError,
             "embedding must be a 2D array, got #{embedding2.ndim}D with shape #{embedding2.shape.inspect}"
     end
-    raise ArgumentError, "embedding must not be empty" if embedding2.size.zero?
+    raise ArgumentError, "embedding must not be empty" if embedding2.empty?
 
     umappp_run(params, embedding2, ndim, nnmethod)
   end

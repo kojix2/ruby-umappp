@@ -26,7 +26,7 @@ x = d[true, 0]
 y = d[true, 1]
 
 plots = 10.times.map do |i|
-  [x[l.eq(i)], y[l.eq(i)], { with: "points", pt: 7, ps: 0.2, t: "#{i}" }]
+  [x[l.eq(i)], y[l.eq(i)], { with: "points", pt: 7, ps: 0.2, t: i.to_s }]
 end
 
 Dir.chdir(__dir__) do
