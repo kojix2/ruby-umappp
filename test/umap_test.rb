@@ -8,7 +8,29 @@ class UmapppTest < Test::Unit::TestCase
   end
 
   test "default_parameters" do
-    assert_instance_of(Hash, Umappp.default_parameters)
+    params = Umappp.default_parameters
+    assert_instance_of(Hash, params)
+
+    expected_keys = %i[
+      local_connectivity
+      bandwidth
+      mix_ratio
+      spread
+      min_dist
+      a
+      b
+      repulsion_strength
+      initialize
+      num_epochs
+      learning_rate
+      negative_sample_rate
+      num_neighbors
+      seed
+      num_threads
+      parallel_optimization
+    ]
+
+    assert_equal expected_keys.sort, params.keys.map(&:to_sym).sort
   end
 
   test "run" do
