@@ -42,7 +42,7 @@ module Umappp
 
   def self.run(embedding, method: :annoy, ndim: 2, **params)
     unless (u = (params.keys - default_parameters.keys)).empty?
-      raise ArgumentError, "[umappp.rb] unknown option : #{u.inspect}"
+      raise ArgumentError, "Unknown option(s): #{u.inspect}"
     end
 
     nnmethod = %i[annoy vptree].index(method.to_sym)
@@ -74,7 +74,10 @@ module Umappp
     end
 
     embedding2 = Numo::SFloat.cast(embedding)
-    raise ArgumentError, "embedding must be a 2D array" if embedding2.ndim <= 1
+    if embedding2.ndim != 2
+      raise ArgumentError,
+            "embedding must be a 2D array, got #{embedding2.ndim}D with shape #{embedding2.shape.inspect}"
+    end
     raise ArgumentError, "embedding must not be empty" if embedding2.size.zero?
 
     umappp_run(params, embedding2, ndim, nnmethod)
