@@ -10,14 +10,19 @@ set -u
 
 UMAPPP_VERSION=${UMAPPP_VERSION:-master}
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TEMP_DIR="${SCRIPT_DIR}/temp"
+VENDOR_DIR="$(dirname "${SCRIPT_DIR}")/vendor"
+
 # Pulling down the dependencies.
-if [ ! -e temp ]
+if [ ! -e "${TEMP_DIR}" ]
 then
-    git clone https://github.com/libscran/umappp temp
-    cd temp
+    git clone https://github.com/libscran/umappp "${TEMP_DIR}"
+    cd "${TEMP_DIR}"
     git checkout ${UMAPPP_VERSION}
 else
-    cd temp
+    cd "${TEMP_DIR}"
     git fetch
     git checkout ${UMAPPP_VERSION}
     if [ "${UMAPPP_VERSION}" = "master" ]; then
@@ -33,13 +38,12 @@ mkdir ../include
 # Copying over the headers.
 cp -r include/umappp ../include/umappp
 
-for x in aarand kmeans knncolle annoy irlba powerit
+for x in aarand knncolle irlba subpar
 do
     cp -r build/_deps/${x}-src/include/${x} ../include/${x}
 done
 
 cp -r build/_deps/eigen-src/Eigen ../include/Eigen
-cp -r build/_deps/hnswlib-src/hnswlib/ ../include/hnswlib
 
-rm -rf ../../vendor
-cp -r ../include ../../vendor
+rm -rf "${VENDOR_DIR}"
+cp -r ../include "${VENDOR_DIR}"
