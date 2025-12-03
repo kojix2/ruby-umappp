@@ -92,25 +92,20 @@ cd script
 
 ### Umappp dependencies
 
-This Gem is a wrapper for [Umappp](https://github.com/LTLA/umappp). We store and distribute Umappp and other dependent C++ code in the Vendor directory. Umappp is compiled when the Gem is installed. Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically. This actually runs cmake and moves the required directories to the vendor directory.
+This gem is a wrapper for [Umappp](https://github.com/libscran/umappp). We store and distribute Umappp and other dependent C++ code in the `vendor` directory. Umappp is compiled when the gem is installed. Umappp's C++ modules have non-trivial dependencies as shown in the figure below. It is not a good idea to manage them manually. Use `script/vendor.sh` to update them automatically. This runs CMake and moves the required directories to the `vendor` directory.
 
 ```mermaid
 graph TD;
-    id1(eigen)-->CppIrlba;
-    aarand-->CppIrlba;
-    Annoy-->knncolle;
-    hnswlib-->knncolle;
-    CppKmeans-->knncolle;
-    aarand-->CppKmeans;
-    powerit-->CppKmeans;
-    aarand-->powerit;
-    knncolle-->umappp;
+    id1(Eigen)-->Irlba;
+    aarand-->Irlba;
     aarand-->umappp;
-    CppIrlba-->umappp;
+    knncolle-->umappp;
+    Irlba-->umappp;
+    subpar-->umappp;
     style id1 fill:#f9f,stroke:#333
 ```
 
-All modules except eigen are the work of Aaron Lun.
+All modules except Eigen are the work of Aaron Lun.
 
 ## Contributing
 
