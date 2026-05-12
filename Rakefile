@@ -11,6 +11,9 @@ end
 
 require "rake/extensiontask"
 
+# Rake's default CLEAN includes **/core for core dumps, which matches Eigen's Core header.
+CLEAN.exclude("vendor/Eigen/Core")
+
 task build: :compile
 
 Rake::ExtensionTask.new("umappp") do |ext|
