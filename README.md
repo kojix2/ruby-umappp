@@ -12,7 +12,7 @@
 
 - Ruby Umappp is a wrapper library for [C++ Umappp library](https://github.com/LTLA/umappp) created by Aaron Lun
 - Compatible with [yaumap](https://github.com/LTLA/yaumap)
-- Support [Numo::NArray](https://github.com/ruby-numo/numo-narray)
+- Support [Numo::NArray Alternative](https://github.com/yoshoku/numo-narray-alt)
 
 ## Installation
 
@@ -24,7 +24,7 @@ gem install umappp
 
 ## Usage
 
-This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. [Numo](https://github.com/ruby-numo/numo-narray) is a library for performing N-dimensional array computing like NumPy. The argument is converted to `Numo::SFloat`. SFloat is a single precision floating point number type of Numo::NArray.
+This Gem provides the module `Umappp` and its singular method `Umappp.run()`. The first argument of `Umappp.run()` is a two-dimensional Ruby array or a two-dimensional Numo array. [Numo::NArray Alternative](https://github.com/yoshoku/numo-narray-alt) is a library for performing N-dimensional array computing like NumPy. The argument is converted to `Numo::SFloat`. SFloat is a single precision floating point number type of Numo::NArray.
 
 ```ruby
 # Original high-dimensional data as two-dimensional Ruby array or Numo array

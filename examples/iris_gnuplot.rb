@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require "umappp"
-require "datasets-numo-narray" # https://github.com/red-data-tools/red-datasets-numo-narray
+require "datasets" # https://github.com/red-data-tools/red-datasets
 require "numo/gnuplot"
 
-iris = Datasets::LIBSVM.new("iris").to_narray
+iris = Numo::SFloat[*Datasets::LIBSVM.new("iris").map(&:values)]
 d = iris[true, 1..-1]
 l = iris[true, 0]
 

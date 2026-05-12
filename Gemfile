@@ -15,5 +15,4 @@ group :examples do
   gem "gr-plot"
   gem "numo-gnuplot"
   gem "red-datasets"
-  gem "red-datasets-numo-narray"
 end

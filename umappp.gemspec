@@ -17,8 +17,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/umappp/extconf.rb"]
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.0"
 
-  spec.add_dependency "numo-narray"
-  spec.add_dependency "rice", ">= 4.5.0"
+  spec.add_dependency "numo-narray-alt"
+  spec.add_dependency "rice"
 end
