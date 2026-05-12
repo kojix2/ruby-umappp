@@ -16,7 +16,10 @@ end
 # numo-narray-alt
 numo = File.join(Gem.loaded_specs["numo-narray-alt"].require_path, "numo")
 abort "Numo header not found" unless find_header("numo/narray.h", numo)
-abort "Numo library not found" if Gem.win_platform? && !find_library("narray", nil, numo)
+if Gem.win_platform?
+  narray_lib_dirs = [numo, File.join(numo, "narray")]
+  abort "Numo library not found" unless find_library("narray", nil, *narray_lib_dirs)
+end
 find_header("numo.hpp", File.expand_path("../../include", __dir__))
 
 dir_config "umap", vendor, vendor
