@@ -6,13 +6,13 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.43
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "README";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -57,38 +59,28 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'>
-<h1 id="label-Umappp+-+UMAP+for+Ruby">Umappp - UMAP for Ruby</h1>
-
-<p><a href="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml"><img src="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml/badge.svg" alt="test"></a> <a href="https://badge.fury.io/rb/umappp"><img src="https://badge.fury.io/rb/umappp.svg" alt="Gem Version"></a></p>
-
+      <div id="content"><div id='filecontents'><h1 id="Umappp___UMAP_for_Ruby">Umappp - UMAP for Ruby</h1>
+<p><a href="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml"><img src="https://github.com/kojix2/ruby-umappp/actions/workflows/ci.yml/badge.svg" alt="test" /></a>
+<a href="https://badge.fury.io/rb/umappp"><img src="https://badge.fury.io/rb/umappp.svg" alt="Gem Version" /></a></p>
 <p>🗺️ <a href="https://github.com/LTLA/umappp">Umappp</a> - Uniform Manifold Approximation and Projection - for Ruby</p>
-
-<p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png" alt="image"></p>
-
+<p><img src="https://user-images.githubusercontent.com/5798442/155692246-fa8e0fb0-33c2-4265-a1bf-228d4f80ebdb.png" alt="image" /></p>
 <blockquote>
-<p>Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction. (<a href="https://umap-learn.readthedocs.io/en/latest/index.html">original UMAP documentation</a>)</p>
+<p>Uniform Manifold Approximation and Projection (UMAP) is a dimension reduction technique that can be used for visualisation similarly to t-SNE, but also for general non-linear dimension reduction.
+(<a href="https://umap-learn.readthedocs.io/en/latest/index.html">original UMAP documentation</a>)</p>
 </blockquote>
-<ul><li>
-<p>Ruby Umappp is a wrapper library for <a href="https://github.com/LTLA/umappp">C++ Umappp library</a> created by Aaron Lun</p>
-</li><li>
-<p>Compatible with <a href="https://github.com/LTLA/yaumap">yaumap</a></p>
-</li><li>
-<p>Support <a href="https://github.com/ruby-numo/numo-narray">Numo::NArray</a></p>
-</li></ul>
-
-<h2 id="label-Installation">Installation</h2>
-
+<ul>
+<li>Ruby Umappp is a wrapper library for <a href="https://github.com/LTLA/umappp">C++ Umappp library</a> created by Aaron Lun</li>
+<li>Compatible with <a href="https://github.com/LTLA/yaumap">yaumap</a></li>
+<li>Support <a href="https://github.com/yoshoku/numo-narray-alt">Numo::NArray Alternative</a></li>
+</ul>
+<h2 id="Installation">Installation</h2>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_umappp'>umappp</span>
 </code></pre>
-<ul><li>
-<p><a href="https://www.openmp.org">OpenMP</a> is required for multithreading.</p>
-</li></ul>
-
-<h2 id="label-Usage">Usage</h2>
-
-<p>This Gem provides the module <code>Umappp</code> and its singular method <code>Umappp.run()</code>. The first argument of <code>Umappp.run()</code> is a two-dimensional Ruby array or a two-dimensional Numo array. <a href="https://github.com/ruby-numo/numo-narray">Numo</a> is a library for performing N-dimensional array computing like NumPy. The argument is converted to <code>Numo::SFloat</code>. SFloat is a single precision floating point number type of Numo::NArray.</p>
-
+<ul>
+<li><a href="https://www.openmp.org">OpenMP</a> is required for multithreading.</li>
+</ul>
+<h2 id="Usage">Usage</h2>
+<p>This Gem provides the module <code>Umappp</code> and its singular method <code>Umappp.run()</code>. The first argument of <code>Umappp.run()</code> is a two-dimensional Ruby array or a two-dimensional Numo array. <a href="https://github.com/yoshoku/numo-narray-alt">Numo::NArray Alternative</a> is a library for performing N-dimensional array computing like NumPy. The argument is converted to <code>Numo::SFloat</code>. SFloat is a single precision floating point number type of Numo::NArray.</p>
 <pre class="code ruby"><code class="ruby"><span class='comment'># Original high-dimensional data as two-dimensional Ruby array or Numo array
 </span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>Numo</span><span class='op'>::</span><span class='const'>SFloat</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>10</span><span class='comma'>,</span> <span class='int'>784</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_rand'>rand</span> <span class='comment'># e.g. 10 images with 784 features
 </span>
@@ -98,12 +90,11 @@
 <span class='comment'># Run with parameters
 </span><span class='id identifier rubyid_embedding'>embedding</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Umappp.html" title="Umappp (module)">Umappp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run'><span class='object_link'><a href="Umappp.html#run-class_method" title="Umappp.run (method)">run</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='label'>num_threads:</span> <span class='int'>8</span><span class='comma'>,</span> <span class='label'>a:</span> <span class='float'>1.8956</span><span class='comma'>,</span> <span class='label'>b:</span> <span class='float'>0.8006</span><span class='rparen'>)</span>
 </code></pre>
-
 <p>Available parameters and their default values</p>
-
-<p>(The defaults are obtained from the underlying C++ Umappp library via <code>Umappp.default_parameters</code> and may change when the bundled Umappp version is updated.)</p>
-
-<table role="table">
+<p>(The defaults are obtained from the underlying C++ Umappp
+library via <code>Umappp.default_parameters</code> and may change when
+the bundled Umappp version is updated.)</p>
+<table>
 <thead>
 <tr>
 <th>parameters</th>
@@ -181,37 +172,28 @@
 </tr>
 </tbody>
 </table>
-
-<p>For the <code>initialize</code> parameter, this gem currently accepts the symbols <code>:spectral</code>, <code>:spectral_only</code>, <code>:random</code> and <code>:none</code>, which are mapped to <code>Umappp::InitMethod</code> values internally.</p>
-
-<h2 id="label-Development">Development</h2>
-
+<p>For the <code>initialize</code> parameter, this gem currently accepts the
+symbols <code>:spectral</code>, <code>:spectral_only</code>, <code>:random</code> and <code>:none</code>,
+which are mapped to <code>Umappp::InitMethod</code> values internally.</p>
+<h2 id="Development">Development</h2>
 <pre class="code ruby"><code class="ruby">git clone https://github.com/kojix2/ruby-umappp
 cd ruby-umappp
 bundle exec rake compile
 bundle exec rake test
 </code></pre>
-
 <p>Update LTLA/umappp</p>
-
 <p>Requires cmake to run</p>
-
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_cd'>cd</span> <span class='id identifier rubyid_script'>script</span>
 <span class='period'>.</span><span class='op'>/</span><span class='id identifier rubyid_vendor'>vendor</span><span class='period'>.</span><span class='id identifier rubyid_sh'>sh</span>
 </code></pre>
-
-<h3 id="label-Ruby+dependencies">Ruby dependencies</h3>
-<ul><li>
-<p><a href="https://github.com/jasonroelofs/rice">rice</a> - Ruby Interface for C++ Extensions</p>
-</li><li>
-<p><a href="https://github.com/ankane/numo.hpp">numo.hpp</a> - C++ header for Numo and Rice</p>
-</li></ul>
-
-<h3 id="label-Umappp+dependencies">Umappp dependencies</h3>
-
-<p>This Gem is a wrapper for <a href="https://github.com/LTLA/umappp">Umappp</a>. We store and distribute Umappp and other dependent C++ code in the Vendor directory. Umappp is compiled when the Gem is installed. Umappp’s C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use <code>script/vendor.sh</code> to update them automatically. This actually runs cmake and moves the required directories to the vendor directory.</p>
-
-<pre class="code ruby"><code class="ruby">graph TD;
+<h3 id="Ruby_dependencies">Ruby dependencies</h3>
+<ul>
+<li><a href="https://github.com/jasonroelofs/rice">rice</a> - Ruby Interface for C++ Extensions</li>
+<li><a href="https://github.com/ankane/numo.hpp">numo.hpp</a> - C++ header for Numo and Rice</li>
+</ul>
+<h3 id="Umappp_dependencies">Umappp dependencies</h3>
+<p>This Gem is a wrapper for <a href="https://github.com/LTLA/umappp">Umappp</a>. We store and distribute Umappp and other dependent C++ code in the Vendor directory. Umappp is compiled when the Gem is installed. Umappp's C++ modules have complex dependencies as shown in the figure below. It is not a good idea to manage them manually. Use <code>script/vendor.sh</code> to update them automatically. This actually runs cmake and moves the required directories to the vendor directory.</p>
+<pre class="code mermaid"><code class="mermaid">graph TD;
     id1(eigen)--&gt;CppIrlba;
     aarand--&gt;CppIrlba;
     Annoy--&gt;knncolle;
@@ -225,32 +207,24 @@ bundle exec rake test
     CppIrlba--&gt;umappp;
     style id1 fill:#f9f,stroke:#333
 </code></pre>
-
 <p>All modules except eigen are the work of Aaron Lun.</p>
-
-<h2 id="label-Contributing">Contributing</h2>
-
+<h2 id="Contributing">Contributing</h2>
 <p>Welcome!</p>
-
 <pre class="code ruby"><code class="ruby">Do you need commit rights to my repository?
 Do you want to get admin rights and take over the project?
 If so, please feel free to contact us @kojix2.
 </code></pre>
-
-<h2 id="label-License">License</h2>
-<ul><li>
-<p>As for the code I wrote, it is BSD 2-Clause (or MIT).</p>
-</li><li>
-<p>The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.</p>
-</li><li>
-<p>For other codes, please check on your own. (There are many dependencies)</p>
-</li></ul>
-</div></div>
+<h2 id="License">License</h2>
+<ul>
+<li>As for the code I wrote, it is BSD 2-Clause (or MIT).</li>
+<li>The license of Umappp for C++ by Aaron Lun is BSD 2-Clause.</li>
+<li>For other codes, please check on your own. (There are many dependencies)</li>
+</ul></div></div>
 
       <div id="footer">
-  Generated on Tue Mar 17 03:14:41 2026 by
+  Generated on Tue May 12 00:59:51 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-4.0.2).
+  0.9.43 (ruby-4.0.2).
 </div>
 
     </div>
